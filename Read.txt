@@ -1,0 +1,64 @@
+cmd         cd Current Location Address            
+git clone https://github.com/sandeepmohamed666/DSAB9.git
+code .   
+Ctrl + `
+
+python -m venv D:\Home-ICTAK\Auto-mpg-Reloaded\.venv 
+python -m venv .venv
+
+.venv\Scripts\Activate.ps1                (.\.venv\scripts\activate.ps1)
+
+get-executionpolicy   
+set-executionpolicy              
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+pip freeze > requirements.txt                         
+
+git config --global user.name  "sandeepmohamed666"     
+git config --global user.email  "sandeepmohamed666@gmail.com"
+
+git config --global --replace-all user.name "sandeepmohamed666"
+git config --global --replace-all user.email "sandeepmohamed666@gmail.com"
+
+git config --global user.name                          
+git config --global user.email  -----> (Verify current configuration:)
+git config --global --list 
+
+git init
+git add *
+git commit -m "04-06-2026 05:16"
+git remote set-url origin https://github.com/sandeepmohamed666/ClimateGuardAI.git
+git branch –M main
+git pull --rebase origin main
+git push -u -f origin main
+
+git --version
+git remote -v             
+git branch
+git status  (COMMITING)
+git config --list
+git log
+
+
+python.exe -m pip install --upgrade pip    (Upgrade pip)
+pip --version
+pip install -r requirements.txt
+pip list
+
+
+python --version
+py --version
+python
+
+
+pip install pandas
+pip show pandas
+pandas --version
+
+
+
+
+
+
+
+
