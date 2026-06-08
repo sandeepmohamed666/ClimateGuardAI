@@ -42,7 +42,7 @@ git log
 
 python.exe -m pip install --upgrade pip    (Upgrade pip)
 pip --version
-pip install -r requirements.txt   (used to install all Python packages listed in a requirements file at once.)
+pip install -r requirements.txt
 pip list
 
 
@@ -56,9 +56,13 @@ pip show pandas
 pandas --version
 
 
-df = pd.read_csv("/content/drive/MyDrive/111 - Z-Home - ICTAK-DSA-Z/--- (X) Capstone Project-------------5----/----- 3) Programs/IndianWeatherRepositor.csv")
 
 
+git add -f datasets/engineered/D5_feature_engineered.csv
+git commit -m "Complete preprocessing phase D6 Encoding And Scaling"  
+git push origin develop 
 
 
-
+git add .
+git commit -m "Complete preprocessing phase D6 Encoding And Scaling"  
+git push origin develop 
