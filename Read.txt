@@ -56,7 +56,7 @@ pip show pandas
 pandas --version
 
 
-
+df = pd.read_csv("/content/drive/MyDrive/111 - Z-Home - ICTAK-DSA-Z/--- (X) Capstone Project-------------5----/----- 3) Programs/IndianWeatherRepositor.csv")
 
 
 
