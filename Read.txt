@@ -42,7 +42,7 @@ git log
 
 python.exe -m pip install --upgrade pip    (Upgrade pip)
 pip --version
-pip install -r requirements.txt
+pip install -r requirements.txt   (used to install all Python packages listed in a requirements file at once.)
 pip list
 
 
