@@ -17,3 +17,6 @@ print(df.describe())
 print("\nCategorical Statistics")
 print(df.describe(include="object"))
 
+# categorical_stats = df.describe(include="object")
+# print(categorical_stats)
+
