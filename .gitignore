@@ -30,3 +30,8 @@ datasets/engineered/
 # OS Files
 .DS_Store
 Thumbs.db
+
+
+datasets/processed/D6_kmeans_ready.csv
+datasets/processed/D6_scaled.csv
+
