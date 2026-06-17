@@ -32,6 +32,7 @@ datasets/engineered/
 Thumbs.db
 
 
-datasets/processed/D6_kmeans_ready.csv
-datasets/processed/D6_scaled.csv
 
+datasets/processed/*.csv
+datasets/engineered/*.csv
+*.pkl
