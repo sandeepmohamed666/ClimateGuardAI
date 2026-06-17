@@ -65,12 +65,13 @@ git push origin develop
 
 git add .
 git commit -m "Complete preprocessing phase D6 Encoding And Scaling"  
-git push origin develop 
+git push origin develop   
 
 Recommended:
 ============
 git checkout develop
 git status
+
 
 Ensure:
 working tree clean
@@ -82,3 +83,6 @@ git pull origin main
 git merge develop
 git push origin main
 
+
+
+My name is Lakhan
