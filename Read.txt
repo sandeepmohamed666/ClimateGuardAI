@@ -27,7 +27,7 @@ git config --global --list
 git init
 git add *
 git commit -m "04-06-2026 05:16"
-git remote set-url origin https://github.com/sandeepmohamed666/ClimateGuardAI.git
+git remote add origin https://github.com/sandeepmohamed666/DSAB9.git
 git branch –M main
 git pull --rebase origin main
 git push -u -f origin main
@@ -85,4 +85,4 @@ git push origin main
 
 
 
-My name is Lakhankk
+My name is My name is Lakhan
