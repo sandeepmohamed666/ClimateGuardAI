@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0b1220"/>
+  
+  <title>Climate Guard AI</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.ico">
+
+  <!-- Simple Styling -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1220;
+      color: #e5e7eb;
+    }
+
+    header {
+      background: #111a2e;
+      padding: 16px 24px;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: #16213a;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #60a5fa;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 12px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div>🌍 Climate Guard AI</div>
+  <div>Risk Dashboard</div>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h3>🌧 Rainfall Risk</h3>
+    <p>Predict flood probability using ML models.</p>
+    <button onclick="predict('rainfall')">Run Prediction</button>
+    <p id="rainfall-result"></p>
+  </div>
+
+  <div class="card">
+    <h3>🔥 Heatwave Alert</h3>
+    <p>Detect extreme temperature anomalies.</p>
+    <button onclick="predict('heatwave')">Run Prediction</button>
+    <p id="heatwave-result"></p>
+  </div>
+
+  <div class="card">
+    <h3>📊 Climate Profile</h3>
+    <p>Analyze long-term climate patterns.</p>
+    <button onclick="predict('profile')">Analyze</button>
+    <p id="profile-result"></p>
+  </div>
+
+  <div class="card">
+    <h3>⚠️ Anomaly Detection</h3>
+    <p>Identify unusual climate behavior.</p>
+    <button onclick="predict('anomaly')">Detect</button>
+    <p id="anomaly-result"></p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Climate Guard AI | Built for climate risk intelligence
+</footer>
+
+<script>
+async function predict(type) {
+  const resultBox = document.getElementById(type + "-result");
+  resultBox.innerText = "Processing...";
+
+  try {
+    const response = await fetch(`/api/${type}/predict`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({})
+    });
+
+    const data = await response.json();
+    resultBox.innerText = JSON.stringify(data, null, 2);
+  } catch (err) {
+    resultBox.innerText = "Error: Backend not connected";
+  }
+}
+</script>
+
+</body>
+</html>
