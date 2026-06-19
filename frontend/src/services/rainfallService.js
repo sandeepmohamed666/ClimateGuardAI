@@ -123,5 +123,3 @@ const mockRainfallPrediction = (input) => {
     ],
   };
 };
-
- 
