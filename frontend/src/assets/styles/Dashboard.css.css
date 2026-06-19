@@ -1,0 +1,166 @@
+/* =========================
+   Climate Guard AI Dashboard
+   Dashboard.css
+   ========================= */
+
+/* Root Theme Variables */
+:root {
+  --primary: #1f3b4d;        /* deep ocean blue */
+  --secondary: #2a9d8f;      /* eco green */
+  --accent: #e9c46a;         /* climate highlight */
+  --danger: #e76f51;         /* alerts */
+  --background: #0f172a;     /* dark navy */
+  --card-bg: #16263a;        /* dashboard cards */
+  --text: #e5e7eb;           /* primary text */
+  --muted: #94a3b8;          /* secondary text */
+  --border: rgba(255,255,255,0.08);
+  --shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, var(--background), #111c2e);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Dashboard Layout */
+.dashboard {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--primary);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-right: 1px solid var(--border);
+}
+
+.sidebar h2 {
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.sidebar a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateX(5px);
+}
+
+/* Main Content */
+.main {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 26px;
+  color: var(--accent);
+}
+
+/* Cards Grid */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.card p {
+  font-size: 22px;
+  margin-top: 6px;
+  color: var(--text);
+}
+
+/* Climate Status Colors */
+.good { color: var(--secondary); }
+.warning { color: var(--accent); }
+.danger { color: var(--danger); }
+
+/* Charts Section */
+.charts {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.chart-box {
+  background: var(--card-bg);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* Footer */
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .charts {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
+
+ 
