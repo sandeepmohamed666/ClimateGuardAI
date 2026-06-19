@@ -83,7 +83,7 @@ git merge develop
 git push origin main
 
 
-
+uvicorn backend.main:app --reload 
 
 
 Here is the transliteration (Hinglish) of the famous song lyrics so you can easily read the Hindi words in the English alphabet:

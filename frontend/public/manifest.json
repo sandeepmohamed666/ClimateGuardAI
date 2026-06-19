@@ -1,41 +1,116 @@
 {
   "name": "Climate Guard AI",
   "short_name": "ClimateGuard",
-  "description": "AI-powered Climate Risk Prediction System for Rainfall, Heatwave, Anomaly Detection, and Climate Profiling.",
+  "description": "AI-powered Climate Risk Prediction System for Rainfall Forecasting, Heatwave Detection, Anomaly Detection, Climate Profiling, Climate Risk Scoring, and Explainable AI Insights.",
   "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0b1220",
-  "theme_color": "#0ea5e9",
-  "orientation": "portrait-primary",
   "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B1220",
+  "theme_color": "#16A34A",
   "lang": "en",
-
+  "categories": [
+    "weather",
+    "utilities",
+    "education",
+    "science",
+    "productivity"
+  ],
   "icons": [
+   {
+    "src": "/favicon.ico",
+    "sizes": "64x64",
+    "type": "image/x-icon",
+    "purpose": "any"
+    },
     {
-      "src": "/icons/icon-192.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/icons/maskable-512.png",
+      "src": "/maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
-
-  "categories": ["weather", "productivity", "science", "education"],
-
   "screenshots": [
     {
-      "src": "/screenshots/dashboard.png",
+      "src": "/dashboard.png",
+      "sizes": "1280x720",
       "type": "image/png",
-      "sizes": "1280x720"
+      "form_factor": "wide",
+      "label": "Climate Guard AI Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Rainfall Prediction",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/rainfall.svg",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Heatwave Detection",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/heatwave.svg",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Anomaly Detection",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/anomaly.svg",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Climate Profiling",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/profiling.svg",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Climate Risk Score",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/climate-risk-score.svg",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Explainable AI",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/explainable.svg",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
