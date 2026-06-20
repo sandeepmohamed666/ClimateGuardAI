@@ -84,7 +84,7 @@ git push origin main
 
 
 uvicorn backend.main:app --reload 
-
+http://127.0.0.1:8000/docs
 
 Here is the transliteration (Hinglish) of the famous song lyrics so you can easily read the Hindi words in the English alphabet:
 
