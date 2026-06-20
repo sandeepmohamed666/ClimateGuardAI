@@ -27,10 +27,13 @@ git config --global --list
 git init
 git add *
 git commit -m "04-06-2026 05:16"
-git remote add origin https://github.com/sandeepmohamed666/DSAB9.git
-git branch –M main
+git remote add origin https://github.com/sandeepmohamed666/ClimateGuardAI.git
+git remote set-url origin https://github.com/sandeepmohamed666/ClimateGuardAI.git
+
+git branch -M develop
+git push -u -f origin develop
+
 git pull --rebase origin main
-git push -u -f origin main
 
 git --version
 git remote -v             
@@ -58,7 +61,7 @@ pandas --version
 
 
 
-git add -f D:\ClimateGuardAI\frontend
+git add -f D:\ClimateGuardAI\backend\ml\artifacts\heatwave_risk_label_encoder.pkl
 git commit -m "deployment"  
 git push origin develop 
 
