@@ -61,7 +61,7 @@ pandas --version
 
 
 
-git add -f climate_anomaly_scaler.pkl
+git add -f D:\ClimateGuardAI\backend\ml\artifacts\explainer.pkl
 git commit -m "deployment"  
 git push origin develop 
 
