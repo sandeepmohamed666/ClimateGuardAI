@@ -1236,7 +1236,7 @@ try:
     # Anomaly Detection
     anomaly_svm = load_pickle("climate_anomaly_svm.pkl")
     anomaly_scaler = load_pickle("climate_anomaly_scaler.pkl")
-
+    anomaly_scaler = load_pickle("climate_anomaly_svm_best_params.pkl")
     # Rainfall Models
     rainfall_rf = load_pickle("rainfall_risk_random_forest.pkl")
     rainfall_xgb = load_pickle("rainfall_risk_xgboost.pkl")
