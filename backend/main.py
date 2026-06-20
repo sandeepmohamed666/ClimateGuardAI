@@ -1160,8 +1160,13 @@ app = FastAPI(
 # BASE PATH (CHANGE THIS IF NEEDED)
 # ==================================================
 
-BASE_PATH = Path("D:/ClimateGuardAI/backend/ml/artifacts")
+# BASE_PATH = Path("D:/ClimateGuardAI/backend/ml/artifacts")
 
+BASE_DIR = Path(__file__).resolve().parent
+BASE_PATH = BASE_DIR / "ml" / "artifacts"
+
+print("BASE_DIR:", BASE_DIR)
+print("MODEL_PATH:", BASE_PATH)
 # ==================================================
 # FEATURE SETS
 # ==================================================
@@ -1230,13 +1235,14 @@ def load_pickle(file_name):
 
 try:
     # Climate Profiling
+             
     kmeans = load_pickle("climate_kmeans.pkl")
     climate_scaler = load_pickle("climate_scaler.pkl")
 
     # Anomaly Detection
     anomaly_svm = load_pickle("climate_anomaly_svm.pkl")
     anomaly_scaler = load_pickle("climate_anomaly_scaler.pkl")
-    anomaly_scaler = load_pickle("climate_anomaly_svm_best_params.pkl")
+    anomaly_best_params = load_pickle("climate_anomaly_svm_best_params.pkl")
     # Rainfall Models
     rainfall_rf = load_pickle("rainfall_risk_random_forest.pkl")
     rainfall_xgb = load_pickle("rainfall_risk_xgboost.pkl")
