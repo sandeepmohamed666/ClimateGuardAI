@@ -63,9 +63,10 @@ git commit -m "deployment"
 git push origin develop 
 
 git add .
-git commit -m "Complete preprocessing phase D6 Encoding And Scaling"  
+git commit -m "Deployment"  
 git push origin develop 
 
+hello 
 Recommended:
 ============
 git checkout develop
@@ -77,7 +78,7 @@ working tree clean
 
 Then:
 ======
-git checkout main
+git checkout main 
 git pull origin main
 git merge develop
 git push origin main
