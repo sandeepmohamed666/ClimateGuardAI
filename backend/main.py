@@ -1155,6 +1155,27 @@ app = FastAPI(
     version="1.0",
     description="AI-powered Climate Risk Prediction System"
 )
+# =====================================
+# ROOT ENDPOINT
+# =====================================
+
+@app.get("/")
+def home():
+    return {
+        "message": "Climate Guard AI API is running"
+    }
+
+# =====================================
+# CORS
+# =====================================
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ==================================================
 # BASE PATH (CHANGE THIS IF NEEDED)
