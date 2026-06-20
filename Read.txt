@@ -59,7 +59,7 @@ pandas --version
 
 
 git add -f D:\ClimateGuardAI\frontend
-git commit -m "Complete preprocessing phase D6 Encoding And Scaling"  
+git commit -m "deployment"  
 git push origin develop 
 
 git add .
