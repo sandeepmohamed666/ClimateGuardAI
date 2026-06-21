@@ -60,27 +60,15 @@ const getRequest = async (endpoint) => {
    ML MODEL ENDPOINTS
 ========================= */
 
-/**
- * Rainfall Risk Prediction
- */
 export const predictRainfallAPI = (data) =>
   postRequest("/rainfall-risk", data);
 
-/**
- * Heatwave Risk Prediction
- */
 export const predictHeatwaveAPI = (data) =>
   postRequest("/heatwave-risk", data);
 
-/**
- * Climate Profile Analysis
- */
 export const predictProfileAPI = (data) =>
   postRequest("/climate-profile", data);
 
-/**
- * Anomaly Detection
- */
 export const predictAnomalyAPI = (data) =>
   postRequest("/climate-anomaly", data);
 
@@ -88,35 +76,26 @@ export const predictAnomalyAPI = (data) =>
    AI INTELLIGENCE
 ========================= */
 
-// /**
-//  * Climate Intelligence Insights
-//  */
-// export const getClimateInsightsAPI = (data) =>
-//   postRequest("/climate-intelligence", data);
-
 /**
- * Risk Score
+ * Climate Risk Score
  */
-export const getRiskScoreAPI = () =>
-  getRequest("/risk-score");
+export const getRiskScoreAPI = (data) =>
+  postRequest("/predict/risk-score", data);
 
 /* =========================
    EXPLAINABILITY
 ========================= */
 
 /**
- * SHAP / Explainability
+ * Explain Prediction
  */
 export const getExplanationAPI = (data) =>
-  postRequest("/explain", data);
+  postRequest("/predict/explain", data);
 
 /* =========================
    HEALTH CHECK
 ========================= */
 
-/**
- * Backend Status Check
- */
 export const healthCheckAPI = () =>
   getRequest("/health");
 
@@ -129,11 +108,154 @@ export default {
   predictHeatwaveAPI,
   predictProfileAPI,
   predictAnomalyAPI,
-  getClimateInsightsAPI,
   getRiskScoreAPI,
   getExplanationAPI,
   healthCheckAPI,
 };
+
+
+// =====================================================================================
+// 2222222222222222222222222222222222222222222222222222222222222222222222222222222222
+// =====================================================================================
+// /**
+//  * Climate Guard AI - Central API Service
+//  * Unified handler for all backend ML requests
+//  */
+
+// // Production Backend URL
+// const API_URL = "https://climateguardai-2-4k51.onrender.com";
+
+// /* =========================
+//    GENERIC POST REQUEST
+// ========================= */
+// const postRequest = async (endpoint, data = {}) => {
+//   try {
+//     const response = await fetch(`${API_URL}${endpoint}`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(data),
+//     });
+
+//     const result = await response.json();
+
+//     if (!response.ok) {
+//       throw new Error(
+//         result.detail || `Request failed: ${endpoint}`
+//       );
+//     }
+
+//     return result;
+//   } catch (error) {
+//     console.error(`API Error [${endpoint}]`, error);
+//     throw error;
+//   }
+// };
+
+// /* =========================
+//    GENERIC GET REQUEST
+// ========================= */
+// const getRequest = async (endpoint) => {
+//   try {
+//     const response = await fetch(`${API_URL}${endpoint}`);
+
+//     const result = await response.json();
+
+//     if (!response.ok) {
+//       throw new Error(
+//         result.detail || `Request failed: ${endpoint}`
+//       );
+//     }
+
+//     return result;
+//   } catch (error) {
+//     console.error(`API Error [${endpoint}]`, error);
+//     throw error;
+//   }
+// };
+
+// /* =========================
+//    ML MODEL ENDPOINTS
+// ========================= */
+
+// /**
+//  * Rainfall Risk Prediction
+//  */
+// export const predictRainfallAPI = (data) =>
+//   postRequest("/rainfall-risk", data);
+
+// /**
+//  * Heatwave Risk Prediction
+//  */
+// export const predictHeatwaveAPI = (data) =>
+//   postRequest("/heatwave-risk", data);
+
+// /**
+//  * Climate Profile Analysis
+//  */
+// export const predictProfileAPI = (data) =>
+//   postRequest("/climate-profile", data);
+
+// /**
+//  * Anomaly Detection
+//  */
+// export const predictAnomalyAPI = (data) =>
+//   postRequest("/climate-anomaly", data);
+
+// /* =========================
+//    AI INTELLIGENCE
+// ========================= */
+
+// // /**
+// //  * Climate Intelligence Insights
+// //  */
+// // export const getClimateInsightsAPI = (data) =>
+// //   postRequest("/climate-intelligence", data);
+
+// /**
+//  * Risk Score
+//  */
+// export const getRiskScoreAPI = () =>
+//   getRequest("/risk-score");
+
+// /* =========================
+//    EXPLAINABILITY
+// ========================= */
+
+// /**
+//  * SHAP / Explainability
+//  */
+// export const getExplanationAPI = (data) =>
+//   postRequest("/explain", data);
+
+// /* =========================
+//    HEALTH CHECK
+// ========================= */
+
+// /**
+//  * Backend Status Check
+//  */
+// export const healthCheckAPI = () =>
+//   getRequest("/health");
+
+// /* =========================
+//    DEFAULT EXPORT
+// ========================= */
+
+// export default {
+//   predictRainfallAPI,
+//   predictHeatwaveAPI,
+//   predictProfileAPI,
+//   predictAnomalyAPI,
+//   // getClimateInsightsAPI,
+//   getRiskScoreAPI,
+//   getExplanationAPI,
+//   healthCheckAPI,
+// };
+// =====================================================================================
+// 11111111111111111111111111111111111111111111111111111111111111111111111111111111111
+// =====================================================================================
 // // services/api.js
 
 // /**
