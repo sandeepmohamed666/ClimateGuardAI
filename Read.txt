@@ -61,7 +61,7 @@ pandas --version
 
 
 
-git add -f D:\ClimateGuardAI\backend\main.py
+git add -f D:\ClimateGuardAI\frontend\package.json
 git commit -m "deployment"  
 git push origin develop 
 
@@ -190,7 +190,7 @@ Sajonon ke sajan jiyo Ram Lakhan.
 https://climateguardai-y5zt.onrender.com
 
 
-
+https://climateguardai-2-4k51.onrender.com/docs
 
  You need to change this in the file where your API base URL is defined. Based on your frontend structure, the most likely files are:
 
