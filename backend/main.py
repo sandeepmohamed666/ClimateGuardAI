@@ -1147,6 +1147,44 @@ import numpy as np
 import pickle
 from pathlib import Path
 
+app = FastAPI(
+    title="Climate Guard AI API",
+    description="""
+# Climate Guard AI API
+
+An AI-powered climate intelligence and risk prediction system.
+
+## Features
+- 📊 Climate Profiling
+- 🔍 Climate Anomaly Detection
+- 🌧️ Rainfall Prediction
+- 🌡️ Heatwave Detection
+- ⚠️ Climate Risk Scoring
+- 🧠 Explainable AI Insights
+- 📈 Climate Intelligence Analytics
+
+## Available Endpoints
+
+- `/predict/profile`
+- `/predict/anomaly`
+- `/predict/rainfall`
+- `/predict/heatwave`
+- `/predict/risk`
+- `/explain`
+- `/health`
+- `/`
+
+Built using FastAPI, Scikit-learn, and Explainable AI techniques.
+    """,
+    version="1.0.0",
+    contact={
+        "name": "Sandeep M",
+        "email": "sandeepmohamed666@gmail.com"
+    },
+    license_info={
+        "name": "MIT License"
+    }
+)
 # ==================================================
 # APP INIT
 # ==================================================
@@ -1333,6 +1371,19 @@ def to_array(data: ClimateInput, features):
     mapping = data.dict()
     return np.array([mapping.get(f, 0) for f in features]).reshape(1, -1)
 
+# =====================================================
+@app.get("/", tags=["System"])
+def home():
+    return {
+        "message": "Climate Guard AI API is running",
+        "version": "1.0.0"
+    }
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy"
+    }
 # ==================================================
 # ENDPOINTS
 # ==================================================
@@ -1503,23 +1554,89 @@ def climate_risk_score(data: ClimateInput):
 #         "status": "pending integration with explainer.pkl"
 #     }
 
-@router.post("/explain/rainfall")
-def explain_rainfall(data: dict):
-    explanation = []
 
-    if data["humidity"] > 80:
-        explanation.append("High humidity increases rainfall probability")
+@app.post("/predict/explain")
+def explain_prediction(data: ClimateInput):
 
-    if data["precip_mm"] > 50:
-        explanation.append("Heavy precipitation detected in input")
+    explanations = []
 
-    if data["pressure_mb"] < 1000:
-        explanation.append("Low pressure system indicates storm formation")
+    if data.humidity > 80:
+        explanations.append(
+            "High humidity increases the probability of rainfall."
+        )
 
-    if data["cloud"] > 70:
-        explanation.append("High cloud cover supports rainfall formation")
+    if data.pressure_mb < 1000:
+        explanations.append(
+            "Low atmospheric pressure indicates unstable weather conditions."
+        )
+
+    if data.cloud > 70:
+        explanations.append(
+            "High cloud cover supports rain formation."
+        )
+
+    if data.wind_kph > 25:
+        explanations.append(
+            "Strong winds may contribute to weather disturbances."
+        )
+
+    if data.temperature_celsius > 35:
+        explanations.append(
+            "High temperature increases heatwave risk."
+        )
+
+    if data.air_quality_PM2_5 > 50:
+        explanations.append(
+            "Poor air quality may increase environmental risk levels."
+        )
+
+    if len(explanations) == 0:
+        explanations.append(
+            "All climate indicators are within normal ranges."
+        )
 
     return {
-        "risk": "High" if len(explanation) > 2 else "Moderate",
-        "explanation": explanation
+        "status": "success",
+        "model": "Climate Guard AI Explainability Engine",
+        "explanation_count": len(explanations),
+        "explanations": explanations,
+        "message": "Climate factors influencing the prediction have been analyzed."
     }
+
+
+
+# import shap
+# explainer = shap.TreeExplainer( rainfall_rf)
+
+# @app.post("/explain/rainfall_ml")
+# def explain_ml(data: dict):
+#     input_array = np.array([[ 
+#         data["temperature_celsius"],
+#         data["humidity"],
+#         data["precip_mm"],
+#         data["pressure_mb"],
+#         data["air_quality_PM2_5"],
+#         data["air_quality_PM10"],
+#         data["visibility_km"],
+#         data["uv_index"],
+#         data["wind_kph"],
+#         data["cloud"]
+#     ]])
+
+#     shap_values = explainer.shap_values(input_array)
+
+#     feature_names = [
+#         "temperature", "humidity", "precipitation", "pressure",
+#         "PM2.5", "PM10", "visibility", "UV", "wind", "cloud"
+#     ]
+
+#     explanation = []
+
+#     for i, val in enumerate(shap_values[0]):
+#         if abs(val) > 0.1:
+#             explanation.append(f"{feature_names[i]} influenced prediction")
+
+#     return {
+#         "prediction":  rainfall_rf.predict(input_array)[0],
+#         "explanation": explanation
+#     }
