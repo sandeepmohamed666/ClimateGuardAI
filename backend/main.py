@@ -1147,44 +1147,44 @@ import numpy as np
 import pickle
 from pathlib import Path
 
-app = FastAPI(
-    title="Climate Guard AI API",
-    description="""
-# Climate Guard AI API
+# app = FastAPI(
+#     title="Climate Guard AI API",
+#     description="""
+# # Climate Guard AI API
 
-An AI-powered climate intelligence and risk prediction system.
+# An AI-powered climate intelligence and risk prediction system.
 
-## Features
-- 📊 Climate Profiling
-- 🔍 Climate Anomaly Detection
-- 🌧️ Rainfall Prediction
-- 🌡️ Heatwave Detection
-- ⚠️ Climate Risk Scoring
-- 🧠 Explainable AI Insights
-- 📈 Climate Intelligence Analytics
+# ## Features
+# - 📊 Climate Profiling
+# - 🔍 Climate Anomaly Detection
+# - 🌧️ Rainfall Prediction
+# - 🌡️ Heatwave Detection
+# - ⚠️ Climate Risk Scoring
+# - 🧠 Explainable AI Insights
+# - 📈 Climate Intelligence Analytics
 
-## Available Endpoints
+# ## Available Endpoints
 
-- `/predict/profile`
-- `/predict/anomaly`
-- `/predict/rainfall`
-- `/predict/heatwave`
-- `/predict/risk`
-- `/explain`
-- `/health`
-- `/`
+# - `/predict/profile`
+# - `/predict/anomaly`
+# - `/predict/rainfall`
+# - `/predict/heatwave`
+# - `/predict/risk`
+# - `/explain`
+# - `/health`
+# - `/`
 
-Built using FastAPI, Scikit-learn, and Explainable AI techniques.
-    """,
-    version="1.0.0",
-    contact={
-        "name": "Sandeep M",
-        "email": "sandeepmohamed666@gmail.com"
-    },
-    license_info={
-        "name": "MIT License"
-    }
-)
+# Built using FastAPI, Scikit-learn, and Explainable AI techniques.
+#     """,
+#     version="1.0.0",
+#     contact={
+#         "name": "Sandeep M",
+#         "email": "sandeepmohamed666@gmail.com"
+#     },
+#     license_info={
+#         "name": "MIT License"
+#     }
+# )
 # ==================================================
 # APP INIT
 # ==================================================
