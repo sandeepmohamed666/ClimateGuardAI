@@ -1,6 +1,6 @@
 // Base URL of the backend API
 // const BASE_URL = "http://localhost:5000/api";
-const API_URL = "https://climateguardai-6.onrender.com";
+const API_URL = "https://climateguardai-2-4k51.onrender.com";
 
 // API Endpoints
 const ENDPOINTS = {

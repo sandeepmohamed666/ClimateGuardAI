@@ -6,7 +6,7 @@
  */
 
 // const API_URL = "http://localhost:5000"; // update in production
-const API_URL = "https://climateguardai-6.onrender.com";
+const API_URL = "https://climateguardai-2-4k51.onrender.com";
 /**
  * Generic POST request handler
  */
