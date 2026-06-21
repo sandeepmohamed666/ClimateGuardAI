@@ -53,25 +53,40 @@ const getRequest = async (endpoint) => {
    ML MODEL ENDPOINTS
 ========================= */
 
+// /** Anomaly Detection */
+// export const predictAnomalyAPI = (data) =>
+//   postRequest("/predict/anomaly", data);
+
+// /** Heatwave Prediction */
+// export const predictHeatwaveAPI = (data) =>
+//   postRequest("/predict/heatwave", data);
+
+// /** Rainfall Prediction */
+// // export const predictRainfallAPI = (data) =>
+// //   postRequest("/predict/rainfall", data);
+
+// export const predictRainfallAPI = (data) =>
+//   postRequest("/rainfall-risk", data);
+
+// /** Climate Profile (K-Means) */
+// export const predictProfileAPI = (data) =>
+//   postRequest("/predict/profile", data);
+
 /** Anomaly Detection */
 export const predictAnomalyAPI = (data) =>
-  postRequest("/predict/anomaly", data);
+  postRequest("/anomaly-detection", data);
 
 /** Heatwave Prediction */
 export const predictHeatwaveAPI = (data) =>
-  postRequest("/predict/heatwave", data);
+  postRequest("/heatwave-risk", data);
 
 /** Rainfall Prediction */
-// export const predictRainfallAPI = (data) =>
-//   postRequest("/predict/rainfall", data);
-
 export const predictRainfallAPI = (data) =>
   postRequest("/rainfall-risk", data);
 
 /** Climate Profile (K-Means) */
 export const predictProfileAPI = (data) =>
-  postRequest("/predict/profile", data);
-
+  postRequest("/climate-profile", data);
 /* =========================
    INTELLIGENCE ENDPOINTS
 ========================= */
