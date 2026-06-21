@@ -1372,18 +1372,18 @@ def to_array(data: ClimateInput, features):
     return np.array([mapping.get(f, 0) for f in features]).reshape(1, -1)
 
 # =====================================================
-@app.get("/", tags=["System"])
-def home():
-    return {
-        "message": "Climate Guard AI API is running",
-        "version": "1.0.0"
-    }
+# @app.get("/", tags=["System"])
+# def home():
+#     return {
+#         "message": "Climate Guard AI API is running",
+#         "version": "1.0.0"
+#     }
 
-@app.get("/health")
-def health():
-    return {
-        "status": "healthy"
-    }
+# @app.get("/health")
+# def health():
+#     return {
+#         "status": "healthy"
+#     }
 # ==================================================
 # ENDPOINTS
 # ==================================================
@@ -1546,62 +1546,62 @@ def climate_risk_score(data: ClimateInput):
 # EXPLAINABLE AI (SAFE PLACEHOLDER)
 # ==================================================
 
-# @app.post("/predict/explain")
-# def explain_prediction(data: ClimateInput):
-
-#     return {
-#         "message": "Explainer endpoint available",
-#         "status": "pending integration with explainer.pkl"
-#     }
-
-
 @app.post("/predict/explain")
 def explain_prediction(data: ClimateInput):
 
-    explanations = []
-
-    if data.humidity > 80:
-        explanations.append(
-            "High humidity increases the probability of rainfall."
-        )
-
-    if data.pressure_mb < 1000:
-        explanations.append(
-            "Low atmospheric pressure indicates unstable weather conditions."
-        )
-
-    if data.cloud > 70:
-        explanations.append(
-            "High cloud cover supports rain formation."
-        )
-
-    if data.wind_kph > 25:
-        explanations.append(
-            "Strong winds may contribute to weather disturbances."
-        )
-
-    if data.temperature_celsius > 35:
-        explanations.append(
-            "High temperature increases heatwave risk."
-        )
-
-    if data.air_quality_PM2_5 > 50:
-        explanations.append(
-            "Poor air quality may increase environmental risk levels."
-        )
-
-    if len(explanations) == 0:
-        explanations.append(
-            "All climate indicators are within normal ranges."
-        )
-
     return {
-        "status": "success",
-        "model": "Climate Guard AI Explainability Engine",
-        "explanation_count": len(explanations),
-        "explanations": explanations,
-        "message": "Climate factors influencing the prediction have been analyzed."
+        "message": "Explainer endpoint available",
+        "status": "pending integration with explainer.pkl"
     }
+
+
+# @app.post("/predict/explain")
+# def explain_prediction(data: ClimateInput):
+
+#     explanations = []
+
+#     if data.humidity > 80:
+#         explanations.append(
+#             "High humidity increases the probability of rainfall."
+#         )
+
+#     if data.pressure_mb < 1000:
+#         explanations.append(
+#             "Low atmospheric pressure indicates unstable weather conditions."
+#         )
+
+#     if data.cloud > 70:
+#         explanations.append(
+#             "High cloud cover supports rain formation."
+#         )
+
+#     if data.wind_kph > 25:
+#         explanations.append(
+#             "Strong winds may contribute to weather disturbances."
+#         )
+
+#     if data.temperature_celsius > 35:
+#         explanations.append(
+#             "High temperature increases heatwave risk."
+#         )
+
+#     if data.air_quality_PM2_5 > 50:
+#         explanations.append(
+#             "Poor air quality may increase environmental risk levels."
+#         )
+
+#     if len(explanations) == 0:
+#         explanations.append(
+#             "All climate indicators are within normal ranges."
+#         )
+
+#     return {
+#         "status": "success",
+#         "model": "Climate Guard AI Explainability Engine",
+#         "explanation_count": len(explanations),
+#         "explanations": explanations,
+#         "message": "Climate factors influencing the prediction have been analyzed."
+#     }
 
 
 
