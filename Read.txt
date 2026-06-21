@@ -267,3 +267,36 @@ Your environments should be:
 Environment	                    Frontend URL	                      Backend URL
 Local development	      http://localhost:5173	                http://localhost:5000
 Production	      https://climate-guard-ai.vercel.app 	https://climateguardai-2-4k51.onrender.com
+
+
+
+
+
+
+
+Access variables in FastAPI
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+PORT = os.getenv("PORT", 5000)
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
+Install the package if needed:
+
+pip install python-dotenv
+For your current Climate Guard AI project
+
+If your backend does not use API keys, database URLs, or secrets, you may not need a .env file at all. Many ML-based FastAPI projects run perfectly without one.
+
+Typical things that belong in a backend .env are:
+
+API keys
+Database URLs
+Secret keys
+Allowed frontend URLs
+Environment settings
+Model paths
+
+Model files (.pkl) and ordinary code settings usually do not need to be stored in .env.
