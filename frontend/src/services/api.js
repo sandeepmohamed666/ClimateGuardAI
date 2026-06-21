@@ -4,7 +4,15 @@
  */
 
 // Production Backend URL
-const API_URL = "https://climateguardai-2-4k51.onrender.com";
+const API_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "http://localhost:5000";
+// const API_URL = import.meta.env.VITE_API_BASE_URL;
+const APP_NAME = import.meta.env.VITE_APP_NAME;
+
+console.log("App:", APP_NAME);
+console.log("API URL:", API_URL);
+// const API_URL = "https://climateguardai-2-4k51.onrender.com";
 
 /* =========================
    GENERIC POST REQUEST

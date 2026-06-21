@@ -61,7 +61,7 @@ pandas --version
 
 
 
-git add -f D:\ClimateGuardAI\.gitignore
+git add -f D:\ClimateGuardAI\frontend\.env.production
 git commit -m "deployment"  
 git push origin develop 
 
@@ -259,3 +259,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+
+Your environments should be:
+
+Environment	                    Frontend URL	                      Backend URL
+Local development	      http://localhost:5173	                http://localhost:5000
+Production	      https://climate-guard-ai.vercel.app 	https://climateguardai-2-4k51.onrender.com
