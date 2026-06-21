@@ -1189,11 +1189,11 @@ Built using FastAPI, Scikit-learn, and Explainable AI techniques.
 # APP INIT
 # ==================================================
 
-app = FastAPI(
-    title="Climate Guard AI",
-    version="1.0",
-    description="AI-powered Climate Risk Prediction System"
-)
+# app = FastAPI(
+#     title="Climate Guard AI",
+#     version="1.0",
+#     description="AI-powered Climate Risk Prediction System"
+# )
 # =====================================
 # ROOT ENDPOINT
 # =====================================
@@ -1213,8 +1213,9 @@ from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://climate-guard-ai.vercel.app/",
-        "http://localhost:5173"
+        "https://climate-guard-ai.vercel.app",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
     ],
     allow_credentials=True,
     allow_methods=["*"],
