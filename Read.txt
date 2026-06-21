@@ -61,7 +61,7 @@ pandas --version
 
 
 
-git add -f D:\ClimateGuardAI\frontend\package.json
+git add -f D:\ClimateGuardAI\.gitignore
 git commit -m "deployment"  
 git push origin develop 
 
