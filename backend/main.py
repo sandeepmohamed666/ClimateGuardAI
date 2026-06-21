@@ -1140,52 +1140,52 @@
 # # ========================================================================================================
 # # ========================================================================================================
 
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-import numpy as np
-import pickle
-from pathlib import Path
+# from fastapi import FastAPI, HTTPException
+# from fastapi.middleware.cors import CORSMiddleware
+# from pydantic import BaseModel
+# import numpy as np
+# import pickle
+# from pathlib import Path
 
-app = FastAPI(
-    title="Climate Guard AI API",
-    description="""
-# Climate Guard AI API
+# app = FastAPI(
+#     title="Climate Guard AI API",
+#     description="""
+# # Climate Guard AI API
 
-An AI-powered climate intelligence and risk prediction system.
+# An AI-powered climate intelligence and risk prediction system.
 
-## Features
-- 📊 Climate Profiling
-- 🔍 Climate Anomaly Detection
-- 🌧️ Rainfall Prediction
-- 🌡️ Heatwave Detection
-- ⚠️ Climate Risk Scoring
-- 🧠 Explainable AI Insights
-- 📈 Climate Intelligence Analytics
+# ## Features
+# - 📊 Climate Profiling
+# - 🔍 Climate Anomaly Detection
+# - 🌧️ Rainfall Prediction
+# - 🌡️ Heatwave Detection
+# - ⚠️ Climate Risk Scoring
+# - 🧠 Explainable AI Insights
+# - 📈 Climate Intelligence Analytics
 
-## Available Endpoints
+# ## Available Endpoints
 
-- `/predict/profile`
-- `/predict/anomaly`
-- `/predict/rainfall`
-- `/predict/heatwave`
-- `/predict/risk`
-- `/explain`
-- `/health`
-- `/`
+# - `/predict/profile`
+# - `/predict/anomaly`
+# - `/predict/rainfall`
+# - `/predict/heatwave`
+# - `/predict/risk`
+# - `/explain`
+# - `/health`
+# - `/`
 
-Built using FastAPI, Scikit-learn, and Explainable AI techniques.
-    """,
-    version="1.0.0",
-    contact={
-        "name": "Sandeep M",
-        "email": "sandeepmohamed666@gmail.com"
-    },
-    license_info={
-        "name": "MIT License"
-    }
-)
-# ==================================================
+# Built using FastAPI, Scikit-learn, and Explainable AI techniques.
+#     """,
+#     version="1.0.0",
+#     contact={
+#         "name": "Sandeep M",
+#         "email": "sandeepmohamed666@gmail.com"
+#     },
+#     license_info={
+#         "name": "MIT License"
+#     }
+# )
+# # ==================================================
 # APP INITXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 # ==================================================
 
@@ -1195,86 +1195,86 @@ Built using FastAPI, Scikit-learn, and Explainable AI techniques.
 #     description="AI-powered Climate Risk Prediction System"
 # )
 # =====================================
-# ROOT ENDPOINT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# ROOT ENDPOINTxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # =====================================
 
-@app.get("/")
-def home():
-    return {
-        "message": "Climate Guard AI API is running"
-    }
+# @app.get("/")
+# def home():
+#     return {
+#         "message": "Climate Guard AI API is running"
+#     }
 
 # =====================================
 # CORS++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # =====================================
 
-from fastapi.middleware.cors import CORSMiddleware
+# from fastapi.middleware.cors import CORSMiddleware
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "https://climate-guard-ai.vercel.app",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173"
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=[
+#         "https://climate-guard-ai.vercel.app",
+#         "http://localhost:5173",
+#         "http://127.0.0.1:5173"
+#     ],
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 # ==================================================
 # BASE PATH (CHANGE THIS IF NEEDED)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
-BASE_PATH = Path("D:/ClimateGuardAI/backend/ml/artifacts")
+# BASE_PATH = Path("D:/ClimateGuardAI/backend/ml/artifacts")
 
-BASE_DIR = Path(__file__).resolve().parent
-BASE_PATH = BASE_DIR / "ml" / "artifacts"
+# BASE_DIR = Path(__file__).resolve().parent
+# BASE_PATH = BASE_DIR / "ml" / "artifacts"
 
-print("BASE_DIR:", BASE_DIR)
-print("MODEL_PATH:", BASE_PATH)
-# ==================================================
-# FEATURE SETS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ==================================================
+# print("BASE_DIR:", BASE_DIR)
+# print("MODEL_PATH:", BASE_PATH)
+# # ==================================================
+# # FEATURE SETS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# # ==================================================
 
-CLIMATE_PROFILING_FEATURES = [
-    'temperature_celsius',
-    'humidity',
-    'precip_mm',
-    'pressure_mb',
-    'air_quality_PM2.5',
-    'air_quality_PM10',
-    'visibility_km',
-    'uv_index'
-]
+# CLIMATE_PROFILING_FEATURES = [
+#     'temperature_celsius',
+#     'humidity',
+#     'precip_mm',
+#     'pressure_mb',
+#     'air_quality_PM2.5',
+#     'air_quality_PM10',
+#     'visibility_km',
+#     'uv_index'
+# ]
 
-CLIMATE_ANOMALY_FEATURES = [
-    'temperature_celsius',
-    'humidity',
-    'precip_mm',
-    'pressure_mb'
-]
+# CLIMATE_ANOMALY_FEATURES = [
+#     'temperature_celsius',
+#     'humidity',
+#     'precip_mm',
+#     'pressure_mb'
+# ]
 
-RAINFALL_FEATURES = [
-    'temperature_celsius',
-    'humidity',
-    'pressure_mb',
-    'air_quality_PM2.5',
-    'air_quality_PM10',
-    'visibility_km',
-    'uv_index',
-    'wind_kph'
-]
+# RAINFALL_FEATURES = [
+#     'temperature_celsius',
+#     'humidity',
+#     'pressure_mb',
+#     'air_quality_PM2.5',
+#     'air_quality_PM10',
+#     'visibility_km',
+#     'uv_index',
+#     'wind_kph'
+# ]
 
-HEATWAVE_FEATURES = [
-    'temperature_celsius',
-    'humidity',
-    'pressure_mb',
-    'wind_kph',
-    'precip_mm',
-    'visibility_km',
-    'air_quality_PM2.5',
-    'air_quality_PM10'
-]
+# HEATWAVE_FEATURES = [
+#     'temperature_celsius',
+#     'humidity',
+#     'pressure_mb',
+#     'wind_kph',
+#     'precip_mm',
+#     'visibility_km',
+#     'air_quality_PM2.5',
+#     'air_quality_PM10'
+# ]
 
 # EXPLAIN_FEATURES = [
 #     'temperature_celsius',
@@ -1291,74 +1291,74 @@ HEATWAVE_FEATURES = [
 # LOAD PICKLE FILES+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
-def load_pickle(file_name):
-    path = BASE_PATH / file_name
-    if not path.exists():
-        raise FileNotFoundError(f"{file_name} not found at {path}")
-    with open(path, "rb") as f:
-        return pickle.load(f)
+# def load_pickle(file_name):
+#     path = BASE_PATH / file_name
+#     if not path.exists():
+#         raise FileNotFoundError(f"{file_name} not found at {path}")
+#     with open(path, "rb") as f:
+#         return pickle.load(f)
 
-try:
-    # Climate Profiling
+# try:
+#     # Climate Profiling
              
-    kmeans = load_pickle("climate_kmeans.pkl")
-    climate_scaler = load_pickle("climate_scaler.pkl")
+#     kmeans = load_pickle("climate_kmeans.pkl")
+#     climate_scaler = load_pickle("climate_scaler.pkl")
 
-    # Anomaly Detection
-    anomaly_svm = load_pickle("climate_anomaly_svm.pkl")
-    anomaly_scaler = load_pickle("climate_anomaly_scaler.pkl")
-    anomaly_best_params = load_pickle("climate_anomaly_svm_best_params.pkl")
-    # Rainfall Models
-    rainfall_rf = load_pickle("rainfall_risk_random_forest.pkl")
-    rainfall_xgb = load_pickle("rainfall_risk_xgboost.pkl")
-    rainfall_lr = load_pickle("rainfall_risk_logistic_regression.pkl")
-    rainfall_scaler = load_pickle("rainfall_risk_scaler.pkl")
-    rainfall_encoder = load_pickle("rainfall_risk_label_encoder.pkl")
+#     # Anomaly Detection
+#     anomaly_svm = load_pickle("climate_anomaly_svm.pkl")
+#     anomaly_scaler = load_pickle("climate_anomaly_scaler.pkl")
+#     anomaly_best_params = load_pickle("climate_anomaly_svm_best_params.pkl")
+#     # Rainfall Models
+#     rainfall_rf = load_pickle("rainfall_risk_random_forest.pkl")
+#     rainfall_xgb = load_pickle("rainfall_risk_xgboost.pkl")
+#     rainfall_lr = load_pickle("rainfall_risk_logistic_regression.pkl")
+#     rainfall_scaler = load_pickle("rainfall_risk_scaler.pkl")
+#     rainfall_encoder = load_pickle("rainfall_risk_label_encoder.pkl")
 
-    # Heatwave Models
-    heat_rf = load_pickle("heatwave_risk_random_forest.pkl")
-    heat_xgb = load_pickle("heatwave_risk_xgboost.pkl")
-    heat_encoder = load_pickle("heatwave_risk_label_encoder.pkl")
+#     # Heatwave Models
+#     heat_rf = load_pickle("heatwave_risk_random_forest.pkl")
+#     heat_xgb = load_pickle("heatwave_risk_xgboost.pkl")
+#     heat_encoder = load_pickle("heatwave_risk_label_encoder.pkl")
 
-    # Risk Score
-    risk_model = load_pickle("climate_risk_model.pkl")
+#     # Risk Score
+#     risk_model = load_pickle("climate_risk_model.pkl")
 
-    # Explainability
-    explainer = load_pickle("explainer.pkl")
+#     # Explainability
+#     explainer = load_pickle("explainer.pkl")
 
-    # Other artifacts
-    # robust_scaler = load_pickle("robust_scaler.pkl")
-    # onehot_encoder = load_pickle("kmeans_onehot_encoder.pkl")
+#     # Other artifacts
+#     # robust_scaler = load_pickle("robust_scaler.pkl")
+#     # onehot_encoder = load_pickle("kmeans_onehot_encoder.pkl")
 
-except Exception as e:
-    print("Model loading error:", e)
+# except Exception as e:
+#     print("Model loading error:", e)
 
 # ==================================================
 # REQUEST MODEL++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
-from pydantic import BaseModel, Field
+# from pydantic import BaseModel, Field
 
-class ClimateInput(BaseModel):
-    temperature_celsius: float = Field(30.0, ge=-50, le=60)
-    humidity: float = Field(70.0, ge=0, le=100)
-    precip_mm: float = Field(5.0, ge=0)
+# class ClimateInput(BaseModel):
+#     temperature_celsius: float = Field(30.0, ge=-50, le=60)
+#     humidity: float = Field(70.0, ge=0, le=100)
+#     precip_mm: float = Field(5.0, ge=0)
 
-    pressure_mb: float = Field(1013.0, ge=800, le=1200)
+#     pressure_mb: float = Field(1013.0, ge=800, le=1200)
 
-    # air_quality_PM2_5: float = Field(40.0, ge=0)
-    air_quality_PM2_5: float = Field(default=40.0,
-        ge=0,alias="air_quality_PM2.5")
+#     # air_quality_PM2_5: float = Field(40.0, ge=0)
+#     air_quality_PM2_5: float = Field(default=40.0,
+#         ge=0,alias="air_quality_PM2.5")
     
-    air_quality_PM10: float = Field(60.0, ge=0)
+#     air_quality_PM10: float = Field(60.0, ge=0)
 
-    visibility_km: float = Field(10.0, ge=0, le=50)
+#     visibility_km: float = Field(10.0, ge=0, le=50)
 
-    uv_index: float = Field(5.0, ge=0, le=12)
+#     uv_index: float = Field(5.0, ge=0, le=12)
 
-    wind_kph: float = Field(15.0, ge=0)
+#     wind_kph: float = Field(15.0, ge=0)
 
-    cloud: float = Field(50.0, ge=0, le=100)
+#     cloud: float = Field(50.0, ge=0, le=100)
 # ==================================================
 # UTILITY FUNCTIONxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 # ==================================================++++++++++++++++++++++++++++++++++++++++++
@@ -1371,57 +1371,57 @@ class ClimateInput(BaseModel):
 # UTILITY FUNCTION++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
-def to_array(data: ClimateInput, features):
+# def to_array(data: ClimateInput, features):
 
-    mapping = data.model_dump()
+#     mapping = data.model_dump()
 
-    # Convert API name to model feature name
-    mapping["air_quality_PM2.5"] = mapping["air_quality_PM2_5"]
+#     # Convert API name to model feature name
+#     mapping["air_quality_PM2.5"] = mapping["air_quality_PM2_5"]
 
-    values = [mapping.get(feature, 0) for feature in features]
+#     values = [mapping.get(feature, 0) for feature in features]
 
-    return np.array(values).reshape(1, -1)
+#     return np.array(values).reshape(1, -1)
 
-# =====================================================++++++++++++++++++++++++++++++++++++++
-@app.get("/", tags=["System"])
-def home():
-    return {
-        "message": "Climate Guard AI API is running",
-        "version": "1.0.0"
-    }
+# # =====================================================++++++++++++++++++++++++++++++++++++++
+# @app.get("/", tags=["System"])
+# def home():
+#     return {
+#         "message": "Climate Guard AI API is running",
+#         "version": "1.0.0"
+#     }
 
-@app.get("/health")
-def health():
-    return {
-        "status": "healthy"
-    }
+# @app.get("/health")
+# def health():
+#     return {
+#         "status": "healthy"
+#     }
 # ==================================================
 # ENDPOINTS
 # ==================================================
 # # -----------------------------------------------------------------
 # #   CLIMATE PROFILE ENDPOINT 1 -FIXED+++++++++++++++++++++++++++++++++++++++++=
 # # -----------------------------------------------------------------
-@app.post("/climate-profile")
-def climate_profile(data: ClimateInput):
-    try:
-        X = to_array(data, CLIMATE_PROFILING_FEATURES)
-        X_scaled = climate_scaler.transform(X)
-        cluster = int(kmeans.predict(X_scaled)[0])
-        return {"cluster": cluster}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.post("/climate-profile")
+# def climate_profile(data: ClimateInput):
+#     try:
+#         X = to_array(data, CLIMATE_PROFILING_FEATURES)
+#         X_scaled = climate_scaler.transform(X)
+#         cluster = int(kmeans.predict(X_scaled)[0])
+#         return {"cluster": cluster}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 # # -----------------------------------------------------------------
 # #   CLIMATE ANOMALY ENDPOINT 1 -FIXED++++++++++++++++++++++++++++++++++++++++++++
 # # -----------------------------------------------------------------
-@app.post("/climate-anomaly")
-def climate_anomaly(data: ClimateInput):
-    try:
-        X = to_array(data, CLIMATE_ANOMALY_FEATURES)
-        X_scaled = anomaly_scaler.transform(X)
-        pred = int(anomaly_svm.predict(X_scaled)[0])
-        return {"anomaly": pred}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.post("/climate-anomaly")
+# def climate_anomaly(data: ClimateInput):
+#     try:
+#         X = to_array(data, CLIMATE_ANOMALY_FEATURES)
+#         X_scaled = anomaly_scaler.transform(X)
+#         pred = int(anomaly_svm.predict(X_scaled)[0])
+#         return {"anomaly": pred}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 # -----------------------------------------------------------------
 #   RAINFALL RISK PREDICTION ENDPOINT 1 
 # -----------------------------------------------------------------
@@ -1449,53 +1449,53 @@ def climate_anomaly(data: ClimateInput):
 # # -----------------------------------------------------------------
 # #   RAINFALL RISK PREDICTION ENDPOINT 2 -FIXED++++++++++++++++++++++++++++++++++
 # # -----------------------------------------------------------------
-@app.post("/rainfall-risk")
-def rainfall_risk(data: ClimateInput):
-    try:
-        X = to_array(data, RAINFALL_FEATURES)
-        X_scaled = rainfall_scaler.transform(X)
+# @app.post("/rainfall-risk")
+# def rainfall_risk(data: ClimateInput):
+#     try:
+#         X = to_array(data, RAINFALL_FEATURES)
+#         X_scaled = rainfall_scaler.transform(X)
 
-        rf = rainfall_rf.predict(X_scaled)[0]
-        xgb = rainfall_xgb.predict(X_scaled)[0]
-        lr = rainfall_lr.predict(X_scaled)[0]
+#         rf = rainfall_rf.predict(X_scaled)[0]
+#         xgb = rainfall_xgb.predict(X_scaled)[0]
+#         lr = rainfall_lr.predict(X_scaled)[0]
 
-        # 🔥 FORCE SAFE TYPE CONVERSION
-        rf = int(rf) if not isinstance(rf, str) else int(rf == "Yes")
-        xgb = int(xgb) if not isinstance(xgb, str) else int(xgb == "Yes")
-        lr = int(lr) if not isinstance(lr, str) else int(lr == "Yes")
+#         # 🔥 FORCE SAFE TYPE CONVERSION
+#         rf = int(rf) if not isinstance(rf, str) else int(rf == "Yes")
+#         xgb = int(xgb) if not isinstance(xgb, str) else int(xgb == "Yes")
+#         lr = int(lr) if not isinstance(lr, str) else int(lr == "Yes")
 
-        final = int(round((rf + xgb + lr) / 3))
+#         final = int(round((rf + xgb + lr) / 3))
 
-        return {
-            "random_forest": int(rf),
-            "xgboost": int(xgb),
-            "logistic_regression": int(lr),
-            "final_prediction": final
-        }
+#         return {
+#             "random_forest": int(rf),
+#             "xgboost": int(xgb),
+#             "logistic_regression": int(lr),
+#             "final_prediction": final
+#         }
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 # # -----------------------------------------------------------------
 # #   HEATWAVE RISK PREDICTION ENDPOINT 1 -FIXED+++++++++++++++++++++++++++++++
 # # -----------------------------------------------------------------
-@app.post("/heatwave-risk")
-def heatwave_risk(data: ClimateInput):
-    try:
-        X = to_array(data, HEATWAVE_FEATURES)
+# @app.post("/heatwave-risk")
+# def heatwave_risk(data: ClimateInput):
+#     try:
+#         X = to_array(data, HEATWAVE_FEATURES)
 
-        rf = heat_rf.predict(X)[0]
-        xgb = heat_xgb.predict(X)[0]
+#         rf = heat_rf.predict(X)[0]
+#         xgb = heat_xgb.predict(X)[0]
 
-        final = int(round((rf + xgb) / 2))
+#         final = int(round((rf + xgb) / 2))
 
-        return {
-            "random_forest": int(rf),
-            "xgboost": int(xgb),
-            "final_prediction": final
-        }
+#         return {
+#             "random_forest": int(rf),
+#             "xgboost": int(xgb),
+#             "final_prediction": final
+#         }
 
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 # -----------------------------------------------------------------
 #   climate-risk-score ENDPOINT 1
 # -----------------------------------------------------------------
@@ -1537,23 +1537,23 @@ def heatwave_risk(data: ClimateInput):
 # #   climate-risk-score 3 -FIXED+++++++++++++++++++++++++++++++++++++++++++++++
 # # -----------------------------------------------------------------
 
-@app.post("/predict/risk-score")
-def climate_risk_score(data: ClimateInput):
-    try:
-        X = to_array(data, CLIMATE_ANOMALY_FEATURES)
+# @app.post("/predict/risk-score")
+# def climate_risk_score(data: ClimateInput):
+#     try:
+#         X = to_array(data, CLIMATE_ANOMALY_FEATURES)
 
-        if risk_model is None:
-            raise ValueError("risk_model not loaded properly")
+#         if risk_model is None:
+#             raise ValueError("risk_model not loaded properly")
 
-        score = risk_model.predict(X)
+#         score = risk_model.predict(X)
 
-        return {
-            "risk_score": float(score[0])
-        }
+#         return {
+#             "risk_score": float(score[0])
+#         }
 
-    except Exception as e:
-        print("ERROR in risk-score:", str(e))  # 🔥 IMPORTANT LOG
-        raise HTTPException(status_code=500, detail=str(e))
+#     except Exception as e:
+#         print("ERROR in risk-score:", str(e))  # 🔥 IMPORTANT LOG
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
 # ==================================================
@@ -1570,53 +1570,53 @@ def climate_risk_score(data: ClimateInput):
 # # ==================================================
 # # EXPLAINABLE AI (SAFE PLACEHOLDER) - 2 FIXED++++++++++++++++++++++++++++++
 # # ==================================================
-@app.post("/predict/explain")
-def explain_prediction(data: ClimateInput):
+# @app.post("/predict/explain")
+# def explain_prediction(data: ClimateInput):
 
-    explanations = []
+#     explanations = []
 
-    if data.humidity > 80:
-        explanations.append(
-            "High humidity increases the probability of rainfall."
-        )
+#     if data.humidity > 80:
+#         explanations.append(
+#             "High humidity increases the probability of rainfall."
+#         )
 
-    if data.pressure_mb < 1000:
-        explanations.append(
-            "Low atmospheric pressure indicates unstable weather conditions."
-        )
+#     if data.pressure_mb < 1000:
+#         explanations.append(
+#             "Low atmospheric pressure indicates unstable weather conditions."
+#         )
 
-    if data.cloud > 70:
-        explanations.append(
-            "High cloud cover supports rain formation."
-        )
+#     if data.cloud > 70:
+#         explanations.append(
+#             "High cloud cover supports rain formation."
+#         )
 
-    if data.wind_kph > 25:
-        explanations.append(
-            "Strong winds may contribute to weather disturbances."
-        )
+#     if data.wind_kph > 25:
+#         explanations.append(
+#             "Strong winds may contribute to weather disturbances."
+#         )
 
-    if data.temperature_celsius > 35:
-        explanations.append(
-            "High temperature increases heatwave risk."
-        )
+#     if data.temperature_celsius > 35:
+#         explanations.append(
+#             "High temperature increases heatwave risk."
+#         )
 
-    if data.air_quality_PM2_5 > 50:
-        explanations.append(
-            "Poor air quality may increase environmental risk levels."
-        )
+#     if data.air_quality_PM2_5 > 50:
+#         explanations.append(
+#             "Poor air quality may increase environmental risk levels."
+#         )
 
-    if len(explanations) == 0:
-        explanations.append(
-            "All climate indicators are within normal ranges."
-        )
+#     if len(explanations) == 0:
+#         explanations.append(
+#             "All climate indicators are within normal ranges."
+#         )
 
-    return {
-        "status": "success",
-        "model": "Climate Guard AI Explainability Engine",
-        "explanation_count": len(explanations),
-        "explanations": explanations,
-        "message": "Climate factors influencing the prediction have been analyzed."
-    }
+#     return {
+#         "status": "success",
+#         "model": "Climate Guard AI Explainability Engine",
+#         "explanation_count": len(explanations),
+#         "explanations": explanations,
+#         "message": "Climate factors influencing the prediction have been analyzed."
+#     }
 # ==================================================
 # EXPLAINABLE AI (SAFE PLACEHOLDER) - 3 CHECK
 # ==================================================
@@ -1668,4 +1668,345 @@ def explain_prediction(data: ClimateInput):
 #         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ==============================================================================================
+# ===========================================================================================
+# =================================================================================================
+# ====================================================================================================
 
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field, ConfigDict
+import numpy as np
+import pickle
+from pathlib import Path
+
+# ==================================================
+# APP
+# ==================================================
+
+app = FastAPI(
+    title="Climate Guard AI API",
+    version="1.0.0",
+    description="AI-powered Climate Intelligence System"
+)
+
+# ==================================================
+# CORS
+# ==================================================
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://climate-guard-ai.vercel.app",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ==================================================
+# PATH
+# ==================================================
+
+BASE_DIR = Path(__file__).resolve().parent
+BASE_PATH = BASE_DIR / "ml" / "artifacts"
+
+print("BASE_DIR:", BASE_DIR)
+print("MODEL_PATH:", BASE_PATH)
+
+# ==================================================
+# SAFE MODEL INIT (IMPORTANT FIX)
+# ==================================================
+
+kmeans = None
+climate_scaler = None
+
+anomaly_svm = None
+anomaly_scaler = None
+
+rainfall_rf = None
+rainfall_xgb = None
+rainfall_lr = None
+rainfall_scaler = None
+
+heat_rf = None
+heat_xgb = None
+
+risk_model = None
+explainer = None
+
+# ==================================================
+# LOAD PICKLES
+# ==================================================
+
+def load_pickle(name):
+    path = BASE_PATH / name
+    if not path.exists():
+        raise FileNotFoundError(f"{name} not found at {path}")
+    with open(path, "rb") as f:
+        return pickle.load(f)
+
+try:
+    kmeans = load_pickle("climate_kmeans.pkl")
+    climate_scaler = load_pickle("climate_scaler.pkl")
+
+    anomaly_svm = load_pickle("climate_anomaly_svm.pkl")
+    anomaly_scaler = load_pickle("climate_anomaly_scaler.pkl")
+
+    rainfall_rf = load_pickle("rainfall_risk_random_forest.pkl")
+    rainfall_xgb = load_pickle("rainfall_risk_xgboost.pkl")
+    rainfall_lr = load_pickle("rainfall_risk_logistic_regression.pkl")
+    rainfall_scaler = load_pickle("rainfall_risk_scaler.pkl")
+
+    heat_rf = load_pickle("heatwave_risk_random_forest.pkl")
+    heat_xgb = load_pickle("heatwave_risk_xgboost.pkl")
+
+    risk_model = load_pickle("climate_risk_model.pkl")
+
+    explainer = load_pickle("explainer.pkl")
+
+except Exception as e:
+    print("MODEL LOAD ERROR:", e)
+
+# ==================================================
+# REQUEST MODEL (FIXED PM2.5 ISSUE)
+# ==================================================
+
+class ClimateInput(BaseModel):
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    temperature_celsius: float = Field(30.0, ge=-50, le=60)
+    humidity: float = Field(70.0, ge=0, le=100)
+    precip_mm: float = Field(5.0, ge=0)
+    pressure_mb: float = Field(1013.0, ge=800, le=1200)
+
+    # FIXED PM2.5
+    air_quality_PM2_5: float = Field(
+        default=40.0,
+        ge=0,
+        alias="air_quality_PM2.5"
+    )
+
+    air_quality_PM10: float = Field(60.0, ge=0)
+    visibility_km: float = Field(10.0, ge=0, le=50)
+    uv_index: float = Field(5.0, ge=0, le=12)
+    wind_kph: float = Field(15.0, ge=0)
+    cloud: float = Field(50.0, ge=0, le=100)
+
+# ==================================================
+# UTIL FUNCTION (FIXED PM2.5 MAPPING)
+# ==================================================
+
+def to_array(data: ClimateInput, features):
+    mapping = data.model_dump()
+
+    # convert PM2.5 format
+    mapping["air_quality_PM2.5"] = mapping["air_quality_PM2_5"]
+
+    return np.array([
+        mapping.get(f, 0) for f in features
+    ]).reshape(1, -1)
+
+# ==================================================
+# ROOT
+# ==================================================
+
+@app.get("/")
+def home():
+    return {"message": "Climate Guard AI API running"}
+
+@app.get("/health")
+def health():
+    return {
+        "status": "healthy",
+        "models_loaded": {
+            "kmeans": kmeans is not None,
+            "anomaly": anomaly_svm is not None,
+            "rainfall": rainfall_rf is not None,
+            "heatwave": heat_rf is not None,
+            "risk": risk_model is not None
+        }
+    }
+
+# ==================================================
+# FEATURES
+# ==================================================
+
+CLIMATE_PROFILING_FEATURES = [
+    'temperature_celsius',
+    'humidity',
+    'precip_mm',
+    'pressure_mb',
+    'air_quality_PM2.5',
+    'air_quality_PM10',
+    'visibility_km',
+    'uv_index'
+]
+
+CLIMATE_ANOMALY_FEATURES = [
+    'temperature_celsius',
+    'humidity',
+    'precip_mm',
+    'pressure_mb'
+]
+
+RAINFALL_FEATURES = [
+    'temperature_celsius',
+    'humidity',
+    'pressure_mb',
+    'air_quality_PM2.5',
+    'air_quality_PM10',
+    'visibility_km',
+    'uv_index',
+    'wind_kph'
+]
+
+HEATWAVE_FEATURES = [
+    'temperature_celsius',
+    'humidity',
+    'pressure_mb',
+    'wind_kph',
+    'precip_mm',
+    'visibility_km',
+    'air_quality_PM2.5',
+    'air_quality_PM10'
+]
+
+RISK_FEATURES = [
+    'temperature_celsius',
+    'humidity',
+    'precip_mm',
+    'pressure_mb',
+    'air_quality_PM2.5',
+    'air_quality_PM10',
+    'visibility_km',
+    'uv_index',
+    'wind_kph',
+    'cloud'
+]
+
+# ==================================================
+# ENDPOINTS
+# ==================================================
+
+@app.post("/climate-profile")
+def climate_profile(data: ClimateInput):
+    X = to_array(data, CLIMATE_PROFILING_FEATURES)
+    X = climate_scaler.transform(X)
+    return {"cluster": int(kmeans.predict(X)[0])}
+# -------------------------------------------------------------
+@app.post("/climate-anomaly")
+def climate_anomaly(data: ClimateInput):
+    X = to_array(data, CLIMATE_ANOMALY_FEATURES)
+    X = anomaly_scaler.transform(X)
+    return {"anomaly": int(anomaly_svm.predict(X)[0])}
+# -------------------------------------------------------------
+# @app.post("/rainfall-risk")
+# def rainfall(data: ClimateInput):
+#     X = to_array(data, RAINFALL_FEATURES)
+#     X = rainfall_scaler.transform(X)
+
+#     rf = int(rainfall_rf.predict(X)[0])
+#     xgb = int(rainfall_xgb.predict(X)[0])
+#     lr = int(rainfall_lr.predict(X)[0])
+
+#     return {
+#         "random_forest": rf,
+#         "xgboost": xgb,
+#         "logistic_regression": lr,
+#         "final": int(round((rf + xgb + lr) / 3))
+#     }
+
+@app.post("/rainfall-risk")
+def rainfall_risk(data: ClimateInput):
+    try:
+        X = to_array(data, RAINFALL_FEATURES)
+        X_scaled = rainfall_scaler.transform(X)
+
+        rf = rainfall_rf.predict(X_scaled)[0]
+        xgb = rainfall_xgb.predict(X_scaled)[0]
+        lr = rainfall_lr.predict(X_scaled)[0]
+
+        # 🔥 FORCE SAFE TYPE CONVERSION
+        rf = int(rf) if not isinstance(rf, str) else int(rf == "Yes")
+        xgb = int(xgb) if not isinstance(xgb, str) else int(xgb == "Yes")
+        lr = int(lr) if not isinstance(lr, str) else int(lr == "Yes")
+
+        final = int(round((rf + xgb + lr) / 3))
+
+        return {
+            "random_forest": int(rf),
+            "xgboost": int(xgb),
+            "logistic_regression": int(lr),
+            "final_prediction": final
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+# -------------------------------------------------------------
+@app.post("/heatwave-risk")
+def heatwave(data: ClimateInput):
+    X = to_array(data, HEATWAVE_FEATURES)
+
+    rf = int(heat_rf.predict(X)[0])
+    xgb = int(heat_xgb.predict(X)[0])
+
+    return {
+        "random_forest": rf,
+        "xgboost": xgb,
+        "final": int(round((rf + xgb) / 2))
+    }
+# -------------------------------------------------------------
+# @app.post("/predict/risk-score")
+# def risk_score(data: ClimateInput):
+#     X = to_array(data, RISK_FEATURES)
+
+#     if risk_model is None:
+#         raise HTTPException(500, "Risk model not loaded")
+
+#     score = risk_model.predict(X)[0]
+
+#     return {"risk_score": float(score)}
+
+
+@app.post("/predict/risk-score")
+def climate_risk_score(data: ClimateInput):
+    try:
+        X = to_array(data, CLIMATE_ANOMALY_FEATURES)
+
+        if risk_model is None:
+            raise ValueError("risk_model not loaded properly")
+
+        score = risk_model.predict(X)
+
+        return {
+            "risk_score": float(score[0])
+        }
+
+    except Exception as e:
+        print("ERROR in risk-score:", str(e))  # 🔥 IMPORTANT LOG
+        raise HTTPException(status_code=500, detail=str(e))
+# -------------------------------------------------------------
+@app.post("/predict/explain")
+def explain(data: ClimateInput):
+
+    explanation = []
+
+    if data.humidity > 80:
+        explanation.append("High humidity increases rainfall chance")
+
+    if data.temperature_celsius > 35:
+        explanation.append("High temperature increases heatwave risk")
+
+    if data.pressure_mb < 1000:
+        explanation.append("Low pressure indicates unstable weather")
+
+    if data.cloud > 70:
+        explanation.append("High cloud cover supports rain formation")
+
+    return {
+        "explanations": explanation
+    }
