@@ -1208,14 +1208,18 @@ def home():
 # CORS
 # =====================================
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    # allow_credentials=True,
+    allow_origins=[
+        "https://climate-guard-ai-6iw1.vercel.app",
+        "http://localhost:5173"
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # ==================================================
 # BASE PATH (CHANGE THIS IF NEEDED)
 # ==================================================
