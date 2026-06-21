@@ -36,3 +36,7 @@ Thumbs.db
 datasets/processed/*.csv
 datasets/engineered/*.csv
 *.pkl
+
+
+node_modules
+dist
