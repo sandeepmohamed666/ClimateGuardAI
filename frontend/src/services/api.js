@@ -62,8 +62,11 @@ export const predictHeatwaveAPI = (data) =>
   postRequest("/predict/heatwave", data);
 
 /** Rainfall Prediction */
+// export const predictRainfallAPI = (data) =>
+//   postRequest("/predict/rainfall", data);
+
 export const predictRainfallAPI = (data) =>
-  postRequest("/predict/rainfall", data);
+  postRequest("/rainfall-risk", data);
 
 /** Climate Profile (K-Means) */
 export const predictProfileAPI = (data) =>
