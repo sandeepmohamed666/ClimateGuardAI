@@ -82,17 +82,17 @@ export const predictProfileAPI = (data) =>
  * Anomaly Detection
  */
 export const predictAnomalyAPI = (data) =>
-  postRequest("/anomaly-detection", data);
+  postRequest("/climate-anomaly", data);
 
 /* =========================
    AI INTELLIGENCE
 ========================= */
 
-/**
- * Climate Intelligence Insights
- */
-export const getClimateInsightsAPI = (data) =>
-  postRequest("/climate-intelligence", data);
+// /**
+//  * Climate Intelligence Insights
+//  */
+// export const getClimateInsightsAPI = (data) =>
+//   postRequest("/climate-intelligence", data);
 
 /**
  * Risk Score
