@@ -1186,7 +1186,7 @@ Built using FastAPI, Scikit-learn, and Explainable AI techniques.
     }
 )
 # ==================================================
-# APP INIT
+# APP INITXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 # ==================================================
 
 # app = FastAPI(
@@ -1195,7 +1195,7 @@ Built using FastAPI, Scikit-learn, and Explainable AI techniques.
 #     description="AI-powered Climate Risk Prediction System"
 # )
 # =====================================
-# ROOT ENDPOINT
+# ROOT ENDPOINT+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # =====================================
 
 @app.get("/")
@@ -1205,7 +1205,7 @@ def home():
     }
 
 # =====================================
-# CORS
+# CORS++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # =====================================
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -1222,10 +1222,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # ==================================================
-# BASE PATH (CHANGE THIS IF NEEDED)
+# BASE PATH (CHANGE THIS IF NEEDED)++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
-# BASE_PATH = Path("D:/ClimateGuardAI/backend/ml/artifacts")
+BASE_PATH = Path("D:/ClimateGuardAI/backend/ml/artifacts")
 
 BASE_DIR = Path(__file__).resolve().parent
 BASE_PATH = BASE_DIR / "ml" / "artifacts"
@@ -1233,7 +1233,7 @@ BASE_PATH = BASE_DIR / "ml" / "artifacts"
 print("BASE_DIR:", BASE_DIR)
 print("MODEL_PATH:", BASE_PATH)
 # ==================================================
-# FEATURE SETS
+# FEATURE SETS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
 CLIMATE_PROFILING_FEATURES = [
@@ -1276,19 +1276,19 @@ HEATWAVE_FEATURES = [
     'air_quality_PM10'
 ]
 
-EXPLAIN_FEATURES = [
-    'temperature_celsius',
-    'humidity',
-    'pressure_mb',
-    'cloud',
-    'wind_kph',
-    'visibility_km',
-    'air_quality_PM2.5',
-    'air_quality_PM10'
-]
+# EXPLAIN_FEATURES = [
+#     'temperature_celsius',
+#     'humidity',
+#     'pressure_mb',
+#     'cloud',
+#     'wind_kph',
+#     'visibility_km',
+#     'air_quality_PM2.5',
+#     'air_quality_PM10'
+# ]
 
 # ==================================================
-# LOAD PICKLE FILES
+# LOAD PICKLE FILES+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
 def load_pickle(file_name):
@@ -1334,20 +1334,8 @@ except Exception as e:
     print("Model loading error:", e)
 
 # ==================================================
-# REQUEST MODEL
+# REQUEST MODEL++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
-
-# class ClimateInput(BaseModel):
-#     temperature_celsius: float
-#     humidity: float
-#     precip_mm: float
-#     pressure_mb: float
-#     air_quality_PM2_5: float
-#     air_quality_PM10: float
-#     visibility_km: float
-#     uv_index: float = 0
-#     wind_kph: float = 0
-#     cloud: float = 0
 
 from pydantic import BaseModel, Field
 
@@ -1358,7 +1346,10 @@ class ClimateInput(BaseModel):
 
     pressure_mb: float = Field(1013.0, ge=800, le=1200)
 
-    air_quality_PM2_5: float = Field(40.0, ge=0)
+    # air_quality_PM2_5: float = Field(40.0, ge=0)
+    air_quality_PM2_5: float = Field(default=40.0,
+        ge=0,alias="air_quality_PM2.5")
+    
     air_quality_PM10: float = Field(60.0, ge=0)
 
     visibility_km: float = Field(10.0, ge=0, le=50)
@@ -1369,14 +1360,29 @@ class ClimateInput(BaseModel):
 
     cloud: float = Field(50.0, ge=0, le=100)
 # ==================================================
-# UTILITY FUNCTION
+# UTILITY FUNCTIONxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# ==================================================++++++++++++++++++++++++++++++++++++++++++
+
+# def to_array(data: ClimateInput, features):
+#     mapping = data.dict()
+#     return np.array([mapping.get(f, 0) for f in features]).reshape(1, -1)
+
+# ==================================================
+# UTILITY FUNCTION++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # ==================================================
 
 def to_array(data: ClimateInput, features):
-    mapping = data.dict()
-    return np.array([mapping.get(f, 0) for f in features]).reshape(1, -1)
 
-# =====================================================
+    mapping = data.model_dump()
+
+    # Convert API name to model feature name
+    mapping["air_quality_PM2.5"] = mapping["air_quality_PM2_5"]
+
+    values = [mapping.get(feature, 0) for feature in features]
+
+    return np.array(values).reshape(1, -1)
+
+# =====================================================++++++++++++++++++++++++++++++++++++++
 @app.get("/", tags=["System"])
 def home():
     return {
@@ -1392,7 +1398,9 @@ def health():
 # ==================================================
 # ENDPOINTS
 # ==================================================
-
+# # -----------------------------------------------------------------
+# #   CLIMATE PROFILE ENDPOINT 1 -FIXED+++++++++++++++++++++++++++++++++++++++++=
+# # -----------------------------------------------------------------
 @app.post("/climate-profile")
 def climate_profile(data: ClimateInput):
     try:
@@ -1402,8 +1410,9 @@ def climate_profile(data: ClimateInput):
         return {"cluster": cluster}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
+# # -----------------------------------------------------------------
+# #   CLIMATE ANOMALY ENDPOINT 1 -FIXED++++++++++++++++++++++++++++++++++++++++++++
+# # -----------------------------------------------------------------
 @app.post("/climate-anomaly")
 def climate_anomaly(data: ClimateInput):
     try:
@@ -1413,8 +1422,9 @@ def climate_anomaly(data: ClimateInput):
         return {"anomaly": pred}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
+# -----------------------------------------------------------------
+#   RAINFALL RISK PREDICTION ENDPOINT 1 
+# -----------------------------------------------------------------
 # @app.post("/rainfall-risk")
 # def rainfall_risk(data: ClimateInput):
 #     try:
@@ -1436,8 +1446,9 @@ def climate_anomaly(data: ClimateInput):
 
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
-# -----------------------------------------------------------------
-
+# # -----------------------------------------------------------------
+# #   RAINFALL RISK PREDICTION ENDPOINT 2 -FIXED++++++++++++++++++++++++++++++++++
+# # -----------------------------------------------------------------
 @app.post("/rainfall-risk")
 def rainfall_risk(data: ClimateInput):
     try:
@@ -1464,7 +1475,9 @@ def rainfall_risk(data: ClimateInput):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-#-------------------------------------------------------------
+# # -----------------------------------------------------------------
+# #   HEATWAVE RISK PREDICTION ENDPOINT 1 -FIXED+++++++++++++++++++++++++++++++
+# # -----------------------------------------------------------------
 @app.post("/heatwave-risk")
 def heatwave_risk(data: ClimateInput):
     try:
@@ -1483,8 +1496,9 @@ def heatwave_risk(data: ClimateInput):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
+# -----------------------------------------------------------------
+#   climate-risk-score ENDPOINT 1
+# -----------------------------------------------------------------
 # @app.post("/climate-risk-score")
 # def climate_risk_score(data: ClimateInput):
 #     try:
@@ -1494,17 +1508,9 @@ def heatwave_risk(data: ClimateInput):
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
 
-
-# @app.post("/explain")
-# def explain_ai(data: ClimateInput):
-#     try:
-#         X = to_array(data, EXPLAIN_FEATURES)
-#         explanation = explainer.explain_instance(X[0].tolist())
-#         return {"explanation": str(explanation)}
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))
-    
-
+# -----------------------------------------------------------------
+#   climate-risk-score ENDPOINT 2 
+# -----------------------------------------------------------------
 # @app.post("/predict/risk-score")
 # def predict_risk_score(data: ClimateInput):
 
@@ -1527,6 +1533,9 @@ def heatwave_risk(data: ClimateInput):
 #     return {
 #         "climate_risk_score": float(score)
 #     }
+# # -----------------------------------------------------------------
+# #   climate-risk-score 3 -FIXED+++++++++++++++++++++++++++++++++++++++++++++++
+# # -----------------------------------------------------------------
 
 @app.post("/predict/risk-score")
 def climate_risk_score(data: ClimateInput):
@@ -1548,7 +1557,7 @@ def climate_risk_score(data: ClimateInput):
 
 
 # ==================================================
-# EXPLAINABLE AI (SAFE PLACEHOLDER)
+# EXPLAINABLE AI (SAFE PLACEHOLDER) - 1
 # ==================================================
 
 # @app.post("/predict/explain")
@@ -1558,8 +1567,9 @@ def climate_risk_score(data: ClimateInput):
 #         "message": "Explainer endpoint available",
 #         "status": "pending integration with explainer.pkl"
 #     }
-
-
+# # ==================================================
+# # EXPLAINABLE AI (SAFE PLACEHOLDER) - 2 FIXED++++++++++++++++++++++++++++++
+# # ==================================================
 @app.post("/predict/explain")
 def explain_prediction(data: ClimateInput):
 
@@ -1607,9 +1617,9 @@ def explain_prediction(data: ClimateInput):
         "explanations": explanations,
         "message": "Climate factors influencing the prediction have been analyzed."
     }
-
-
-
+# ==================================================
+# EXPLAINABLE AI (SAFE PLACEHOLDER) - 3 CHECK
+# ==================================================
 # import shap
 # explainer = shap.TreeExplainer( rainfall_rf)
 
@@ -1645,3 +1655,17 @@ def explain_prediction(data: ClimateInput):
 #         "prediction":  rainfall_rf.predict(input_array)[0],
 #         "explanation": explanation
 #     }
+# -----------------------------------------------------------------
+#   climate-risk-score ENDPOINT 4
+# -----------------------------------------------------------------
+# @app.post("/explain")
+# def explain_ai(data: ClimateInput):
+#     try:
+#         X = to_array(data, EXPLAIN_FEATURES)
+#         explanation = explainer.explain_instance(X[0].tolist())
+#         return {"explanation": str(explanation)}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+
+
