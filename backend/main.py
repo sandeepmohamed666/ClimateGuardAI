@@ -1141,6 +1141,7 @@
 # # ========================================================================================================
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import numpy as np
 import pickle
@@ -1494,10 +1495,31 @@ def climate_risk_score(data: ClimateInput):
 # EXPLAINABLE AI (SAFE PLACEHOLDER)
 # ==================================================
 
-@app.post("/predict/explain")
-def explain_prediction(data: ClimateInput):
+# @app.post("/predict/explain")
+# def explain_prediction(data: ClimateInput):
+
+#     return {
+#         "message": "Explainer endpoint available",
+#         "status": "pending integration with explainer.pkl"
+#     }
+
+@router.post("/explain/rainfall")
+def explain_rainfall(data: dict):
+    explanation = []
+
+    if data["humidity"] > 80:
+        explanation.append("High humidity increases rainfall probability")
+
+    if data["precip_mm"] > 50:
+        explanation.append("Heavy precipitation detected in input")
+
+    if data["pressure_mb"] < 1000:
+        explanation.append("Low pressure system indicates storm formation")
+
+    if data["cloud"] > 70:
+        explanation.append("High cloud cover supports rainfall formation")
 
     return {
-        "message": "Explainer endpoint available",
-        "status": "pending integration with explainer.pkl"
+        "risk": "High" if len(explanation) > 2 else "Moderate",
+        "explanation": explanation
     }
