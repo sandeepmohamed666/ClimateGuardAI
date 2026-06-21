@@ -1213,7 +1213,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://climate-guard-ai-6iw1.vercel.app",
+        "https://climate-guard-ai.vercel.app/",
         "http://localhost:5173"
     ],
     allow_credentials=True,
