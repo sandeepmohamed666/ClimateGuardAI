@@ -58,10 +58,8 @@ pip install pandas
 pip show pandas
 pandas --version
 
-dd
 
-kkkkk
-git add -f D:\ClimateGuardAI\backend\ml\artifacts\climate_risk_model.pkl
+git add -f D:\ClimateGuardAI\runtime.txt
 git commit -m "deployment"  
 git push origin develop 
 
@@ -91,6 +89,13 @@ uvicorn backend.main:app --reload
 http://127.0.0.1:8000/docs
 
 uvicorn main:app --host 0.0.0.0 --port $PORT
+
+
+cd D:\ClimateGuardAI\backend
+python -m uvicorn main:app --reload
+
+
+
 
 Here is the transliteration (Hinglish) of the famous song lyrics so you can easily read the Hindi words in the English alphabet:
 

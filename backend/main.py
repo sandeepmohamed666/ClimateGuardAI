@@ -2041,3 +2041,26 @@ def explain(data: ClimateInput):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+    
+# uvicorn backend.main:app --reload 
+
+# uvicorn main:app --host 0.0.0.0 --port $PORT
+
+# cd D:\ClimateGuardAI\backend
+# python -m uvicorn main:app --reload
+
+
+# http://127.0.0.1:8000/docs
+# https://climateguardai-2-4k51.onrender.com
+# https://climateguardai-2-4k51.onrender.com/health
+# https://climateguardai-2-4k51.onrender.com/docs
+
+
+# http://localhost:5173	  
+# climate-guard-ai.vercel.app
+# climate-guard-ai-git-develop-sandeep-projects3.vercel.app
+# climate-guard-33r1wdh9q-sandeep-projects3.vercel.app
+
+# https://climateguard-ai.netlify.app/
