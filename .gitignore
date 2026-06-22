@@ -31,7 +31,8 @@ datasets/engineered/
 .DS_Store
 Thumbs.db
 
-
+datasets/engineered/climate_risk_scored_output.csv
+datasets/engineered/*.csv
 
 datasets/processed/*.csv
 datasets/engineered/*.csv

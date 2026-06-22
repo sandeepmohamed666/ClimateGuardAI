@@ -58,10 +58,10 @@ pip install pandas
 pip show pandas
 pandas --version
 
+dd
 
 
-
-git add -f D:\ClimateGuardAI\frontend\.env.production
+git add -f D:\ClimateGuardAI\Read.txt
 git commit -m "deployment"  
 git push origin develop 
 
@@ -300,3 +300,16 @@ Environment settings
 Model paths
 
 Model files (.pkl) and ordinary code settings usually do not need to be stored in .env.
+
+
+
+temperature_celsius
+humidity
+precip_mm
+pressure_mb
+air_quality_PM2_5
+air_quality_PM10
+visibility_km
+uv_index
+wind_kph
+cloud

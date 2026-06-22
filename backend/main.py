@@ -1804,12 +1804,20 @@ def to_array(data: ClimateInput, features):
     mapping = data.model_dump()
 
     # convert PM2.5 format
-    mapping["air_quality_PM2.5"] = mapping["air_quality_PM2_5"]
+    pm25 = mapping.get("air_quality_PM2_5")
+    if pm25 is not None:
+        mapping["air_quality_PM2.5"] = pm25
 
     return np.array([
         mapping.get(f, 0) for f in features
     ]).reshape(1, -1)
 
+  # convert PM2.5 format
+    # mapping["air_quality_PM2.5"] = mapping["air_quality_PM2_5"]
+
+    # return np.array([
+    #     mapping.get(f, 0) for f in features
+    # ]).reshape(1, -1)
 # ==================================================
 # ROOT
 # ==================================================
@@ -1971,7 +1979,7 @@ def heatwave(data: ClimateInput):
 
 #     return {"risk_score": float(score)}
 
-
+# ................................................................
 @app.post("/predict/risk-score")
 def climate_risk_score(data: ClimateInput):
     try:
@@ -1989,6 +1997,26 @@ def climate_risk_score(data: ClimateInput):
     except Exception as e:
         print("ERROR in risk-score:", str(e))  # 🔥 IMPORTANT LOG
         raise HTTPException(status_code=500, detail=str(e))
+
+# X = to_array(data, RISK_FEATURES)
+# @app.post("/predict/risk-score")
+# def climate_risk_score(data: ClimateInput):
+#     try:
+#         X = to_array(data, RISK_FEATURES)
+
+#         if risk_model is None:
+#             raise ValueError("risk_model not loaded properly")
+
+#         score = risk_model.predict(X)
+
+#         return {
+#             "risk_score": float(score[0])
+#         }
+
+#     except Exception as e:
+#         print("ERROR in risk-score:", str(e))
+#         raise HTTPException(status_code=500, detail=str(e))
+
 # -------------------------------------------------------------
 @app.post("/predict/explain")
 def explain(data: ClimateInput):
