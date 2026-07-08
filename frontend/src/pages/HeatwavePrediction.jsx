@@ -1,97 +1,59 @@
 import React, { useState } from "react";
-import "./HeatwavePrediction.css";
-
+import { predictFromLocationAPI } from "../services/api";
 
 const HeatwavePrediction = () => {
-  const [temp, setTemp] = useState("");
+  const [latitude, setLatitude] = useState("28.6139");
+  const [longitude, setLongitude] = useState("77.2090");
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-
-  // Dummy logic (replace with backend ML API later)
-  const handlePredict = () => {
-    const temperature = parseFloat(temp);
-
-
-    if (isNaN(temperature)) {
-      setResult({
-        status: "Invalid Input ❌",
-        message: "Please enter a valid temperature value.",
-      });
-      return;
+  const handlePredict = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await predictFromLocationAPI(
+        Number(latitude),
+        Number(longitude),
+        "heatwave"
+      );
+      setResult(response);
+    } catch (err) {
+      setError(err.message || "Failed to predict heatwave risk");
+      setResult(null);
+    } finally {
+      setLoading(false);
     }
-
-
-    let status = "";
-    let message = "";
-
-
-    if (temperature >= 40) {
-      status = "Severe Heatwave 🔴";
-      message = "Extreme heat conditions detected. High risk alert!";
-    } else if (temperature >= 35) {
-      status = "Heatwave Warning 🟠";
-      message = "High temperature detected. Stay hydrated and avoid exposure.";
-    } else {
-      status = "Normal Conditions 🟢";
-      message = "Temperature is within safe range.";
-    }
-
-
-    setResult({ status, message });
   };
 
-
   return (
-    <div className="hw-container">
-      <div className="hw-card">
-        <h1>Heatwave Prediction 🔥</h1>
+    <section className="card">
+      <h1>Heatwave Prediction</h1>
+      <p>Location-driven heatwave risk prediction powered by Open-Meteo and backend scoring.</p>
 
-
-        <p>
-          This module predicts potential heatwave conditions based on
-          temperature input and environmental trends using AI logic.
-        </p>
-
-
-        <div className="input-box">
-          <input
-            type="number"
-            placeholder="Enter temperature (°C)"
-            value={temp}
-            onChange={(e) => setTemp(e.target.value)}
-          />
-
-
-          <button onClick={handlePredict}>Predict</button>
-        </div>
-
-
-        {result && (
-          <div className="result-box">
-            <h2>{result.status}</h2>
-            <p>{result.message}</p>
-          </div>
-        )}
-
-
-        <h2>🌡️ Heatwave Risk Levels</h2>
-        <ul>
-          <li>Below 35°C → Normal conditions</li>
-          <li>35°C - 39°C → Heatwave warning</li>
-          <li>40°C and above → Severe heatwave alert</li>
-        </ul>
-
-
-        <h2>🧠 Future Upgrade</h2>
-        <p>
-          This will be upgraded to a machine learning model using historical
-          temperature trends, humidity, and pressure data.
-        </p>
+      <div className="grid" style={{ marginTop: 12 }}>
+        <input value={latitude} onChange={(e) => setLatitude(e.target.value)} placeholder="Latitude" />
+        <input value={longitude} onChange={(e) => setLongitude(e.target.value)} placeholder="Longitude" />
       </div>
-    </div>
+
+      <button style={{ marginTop: 12 }} onClick={handlePredict} disabled={loading}>
+        {loading ? "Predicting..." : "Predict Heatwave"}
+      </button>
+
+      {error && <p className="danger" style={{ marginTop: 12 }}>{error}</p>}
+
+      {result && (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h3>Prediction</h3>
+          <p>Risk: {result.prediction.heatwave_risk}</p>
+          <p>Risk Score: {result.prediction.risk_score}</p>
+          <p>Temperature: {result.weather.temperature_celsius} C</p>
+          <p>Wind: {result.weather.wind_kph} km/h</p>
+          <p>Observed At: {result.weather.observed_at}</p>
+        </div>
+      )}
+    </section>
   );
 };
 
-
 export default HeatwavePrediction;
- 

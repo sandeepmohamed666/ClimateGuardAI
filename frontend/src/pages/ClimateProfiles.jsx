@@ -1,91 +1,58 @@
-import React from "react";
-import "./ClimateProfiles.css";
-
+import React, { useState } from "react";
+import { predictFromLocationAPI } from "../services/api";
 
 const ClimateProfiles = () => {
-  const profiles = [
-    {
-      title: "🌴 Tropical Profile",
-      description:
-        "High temperature, high humidity, and frequent rainfall. Typical of coastal and equatorial regions.",
-      features: ["High Temp", "High Humidity", "Heavy Rainfall"],
-      color: "#22c55e",
-    },
-    {
-      title: "🏜️ Dry / Arid Profile",
-      description:
-        "Hot or warm temperatures with very low humidity and minimal rainfall.",
-      features: ["High Temp", "Low Humidity", "Low Rainfall"],
-      color: "#f59e0b",
-    },
-    {
-      title: "❄️ Cold Climate Profile",
-      description:
-        "Low temperatures with dry air and limited rainfall or snowfall.",
-      features: ["Low Temp", "Low Humidity", "Snow/Cold Conditions"],
-      color: "#60a5fa",
-    },
-    {
-      title: "🌦️ Temperate Profile",
-      description:
-        "Moderate temperature and balanced humidity with seasonal variations.",
-      features: ["Balanced Temp", "Moderate Humidity", "Seasonal Rain"],
-      color: "#34d399",
-    },
-  ];
+  const [latitude, setLatitude] = useState("28.6139");
+  const [longitude, setLongitude] = useState("77.2090");
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  const handlePredict = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await predictFromLocationAPI(
+        Number(latitude),
+        Number(longitude),
+        "profile"
+      );
+      setResult(response);
+    } catch (err) {
+      setError(err.message || "Failed to classify climate profile");
+      setResult(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="cp-container">
-      <div className="cp-card">
-        <h1>Climate Profiles 🌍</h1>
+    <section className="card">
+      <h1>Climate Profiles</h1>
+      <p>Classify current location into a climate profile using backend clustering logic.</p>
 
-
-        <p>
-          Using <b>K-Means clustering</b>, Climate Guard AI groups environmental
-          data into distinct climate profiles based on temperature, humidity,
-          rainfall, pressure, and air quality.
-        </p>
-
-
-        <div className="grid">
-          {profiles.map((profile, index) => (
-            <div
-              key={index}
-              className="profile-card"
-              style={{ borderLeft: `4px solid ${profile.color}` }}
-            >
-              <h2>{profile.title}</h2>
-              <p>{profile.description}</p>
-
-
-              <ul>
-                {profile.features.map((f, i) => (
-                  <li key={i}>{f}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-
-        <h2>🧠 Why Clustering?</h2>
-        <p>
-          Since climate data is unlabeled, unsupervised learning helps discover
-          hidden patterns without predefined categories.
-        </p>
-
-
-        <div className="note">
-          K-Means helps convert raw environmental data into meaningful climate
-          insights.
-        </div>
+      <div className="grid" style={{ marginTop: 12 }}>
+        <input value={latitude} onChange={(e) => setLatitude(e.target.value)} placeholder="Latitude" />
+        <input value={longitude} onChange={(e) => setLongitude(e.target.value)} placeholder="Longitude" />
       </div>
-    </div>
+
+      <button style={{ marginTop: 12 }} onClick={handlePredict} disabled={loading}>
+        {loading ? "Classifying..." : "Classify Profile"}
+      </button>
+
+      {error && <p className="danger" style={{ marginTop: 12 }}>{error}</p>}
+
+      {result && (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h3>Profile</h3>
+          <p>{result.prediction.climate_cluster}</p>
+          <p>Temperature: {result.weather.temperature_celsius} C</p>
+          <p>Humidity: {result.weather.humidity}%</p>
+          <p>Precipitation: {result.weather.precip_mm} mm</p>
+        </div>
+      )}
+    </section>
   );
 };
 
-
 export default ClimateProfiles;
-
- 

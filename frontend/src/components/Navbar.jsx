@@ -1,67 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Navbar.css";
+import "../assets/styles/Navbar.css";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
-      {/* Logo Section */}
-      <div className="navbar-logo">
-        <img
-          src="/logo.png"
-          alt="Climate Guard AI Logo"
-          className="logo"
-        />
+      <div className="logo">
         <h2>Climate Guard AI</h2>
       </div>
 
-      {/* Navigation Links */}
-      <ul className="navbar-links">
+      <ul className="nav-links">
         <li>
           <Link to="/">Dashboard</Link>
         </li>
-
         <li>
           <Link to="/rainfall">Rainfall Risk</Link>
         </li>
-
         <li>
           <Link to="/heatwave">Heatwave Risk</Link>
         </li>
-
         <li>
-          <Link to="/profiles">Climate Profiles</Link>
+          <Link to="/climate-profiles">Climate Profiles</Link>
         </li>
-
         <li>
           <Link to="/anomaly">Anomaly Detection</Link>
         </li>
-
         <li>
-          <Link to="/intelligence">Intelligence</Link>.logo {
-  width: 45px;
-  height: 45px;
-}
+          <Link to="/risk-score">Risk Score</Link>
+        </li>
+        <li>
+          <Link to="/explainable-ai">Explainable AI</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
 
-.navbar-logo h2 {
-  color: #38bdf8;
-  font-size: 24px;
-}
-
-.navbar-links {
-  display: flex;
-  gap: 25px;
-  list-style: none;
-}
-
-.navbar-links a {
-  text-decoration: none;
-  color: white;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.navbar-links a:hover {
-  color: #38bdf8;
-}
- 
+export default Navbar;

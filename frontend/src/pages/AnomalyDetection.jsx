@@ -1,78 +1,58 @@
 import React, { useState } from "react";
-import "./AnomalyDetection.css";
-
+import { predictFromLocationAPI } from "../services/api";
 
 const AnomalyDetection = () => {
+  const [latitude, setLatitude] = useState("28.6139");
+  const [longitude, setLongitude] = useState("77.2090");
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-
-  // Dummy prediction function (replace with backend API call)
-  const handleDetect = () => {
-    const isAnomaly = Math.random() > 0.5;
-
-
-    setResult({
-      status: isAnomaly ? "Anomaly Detected ⚠️" : "Normal Condition ✅",
-      description: isAnomaly
-        ? "Extreme climate pattern detected. This may indicate unusual environmental behavior."
-        : "Environmental conditions are stable and within normal range.",
-    });
+  const handlePredict = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await predictFromLocationAPI(
+        Number(latitude),
+        Number(longitude),
+        "anomaly"
+      );
+      setResult(response);
+    } catch (err) {
+      setError(err.message || "Failed to detect anomaly");
+      setResult(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
-
   return (
-    <div className="ad-container">
-      <div className="ad-card">
-        <h1>Anomaly Detection 🔍</h1>
+    <section className="card">
+      <h1>Anomaly Detection</h1>
+      <p>Detect unusual climate conditions using current weather and backend anomaly scoring.</p>
 
-
-        <p>
-          This module uses machine learning (One-Class SVM) to detect unusual
-          climate conditions based on environmental inputs.
-        </p>
-
-
-        <button className="detect-btn" onClick={handleDetect}>
-          Run Detection
-        </button>
-
-
-        {result && (
-          <div
-            className={
-              result.status.includes("Anomaly")
-                ? "result-box anomaly"
-                : "result-box normal"
-            }
-          >
-            <h2>{result.status}</h2>
-            <p>{result.description}</p>
-          </div>
-        )}
-
-
-        <h2>📌 How it works</h2>
-        <ul>
-          <li>Input environmental parameters (temperature, AQI, humidity)</li>
-          <li>Data is scaled using StandardScaler</li>
-          <li>One-Class SVM detects deviations from normal patterns</li>
-          <li>System classifies result as Normal or Anomaly</li>
-        </ul>
-
-
-        <h2>🌡️ Example Anomalies</h2>
-        <ul>
-          <li>Extreme heatwaves</li>
-          <li>Sudden air quality drop</li>
-          <li>Unusual rainfall spikes</li>
-          <li>Rare atmospheric pressure shifts</li>
-        </ul>
+      <div className="grid" style={{ marginTop: 12 }}>
+        <input value={latitude} onChange={(e) => setLatitude(e.target.value)} placeholder="Latitude" />
+        <input value={longitude} onChange={(e) => setLongitude(e.target.value)} placeholder="Longitude" />
       </div>
-    </div>
+
+      <button style={{ marginTop: 12 }} onClick={handlePredict} disabled={loading}>
+        {loading ? "Analyzing..." : "Run Detection"}
+      </button>
+
+      {error && <p className="danger" style={{ marginTop: 12 }}>{error}</p>}
+
+      {result && (
+        <div className="card" style={{ marginTop: 16 }}>
+          <h3>Result</h3>
+          <p>Label: {result.prediction.anomaly}</p>
+          <p>Score: {result.prediction.anomaly_score}</p>
+          <p>Pressure: {result.weather.pressure_mb} mb</p>
+          <p>Observed At: {result.weather.observed_at}</p>
+        </div>
+      )}
+    </section>
   );
 };
 
-
 export default AnomalyDetection;
- 
-

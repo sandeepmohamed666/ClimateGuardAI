@@ -1,86 +1,65 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
+import React, { useEffect, useState } from "react";
+import { healthCheckAPI, predictFromLocationAPI } from "../services/api";
 
+const DEFAULT_LOCATION = {
+  latitude: 28.6139,
+  longitude: 77.209,
+};
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const [health, setHealth] = useState("checking");
+  const [summary, setSummary] = useState(null);
+  const [error, setError] = useState("");
 
-
-  const cards = [
-    {
-      title: "Anomaly Detection",
-      desc: "Detect unusual climate patterns using ML models.",
-      path: "/anomaly",
-      icon: "⚠️",
-      color: "#ef4444",
-    },
-    {
-      title: "Climate Profiles",
-      desc: "Discover hidden climate groups using K-Means clustering.",
-      path: "/climate-profiles",
-      icon: "🌤️",
-      color: "#22c55e",
-    },
-    {
-      title: "Heatwave Prediction",
-      desc: "Predict heatwave risk based on temperature trends.",
-      path: "/heatwave",
-      icon: "🔥",
-      color: "#f97316",
-    },
-    {
-      title: "Rainfall Prediction",
-      desc: "Estimate rainfall probability using weather parameters.",
-      path: "/rainfall",
-      icon: "🌧️",
-      color: "#38bdf8",
-    },
-    {
-      title: "Climate Intelligence",
-      desc: "AI-powered insights into climate trends and risks.",
-      path: "/climate-intelligence",
-      icon: "🧠",
-      color: "#a78bfa",
-    },
-    {
-      title: "Explainability",
-      desc: "Understand AI decisions using SHAP explanations.",
-      path: "/explainability",
-      icon: "📊",
-      color: "#34d399",
-    },
-  ];
-
+  useEffect(() => {
+    const load = async () => {
+      try {
+        await healthCheckAPI();
+        setHealth("online");
+        const response = await predictFromLocationAPI(
+          DEFAULT_LOCATION.latitude,
+          DEFAULT_LOCATION.longitude,
+          "rainfall"
+        );
+        setSummary(response);
+      } catch (err) {
+        setHealth("offline");
+        setError(err.message || "Unable to load backend data");
+      }
+    };
+    load();
+  }, []);
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1>Climate Guard AI 🌍</h1>
-        <p>AI-powered Climate Monitoring & Risk Detection System</p>
-      </div>
+    <section className="card">
+      <h1>Dashboard</h1>
+      <p>Backend status: {health}</p>
+      {error && <p className="danger">{error}</p>}
 
-
-      <div className="card-grid">
-        {cards.map((card, index) => (
-          <div
-            key={index}
-            className="dashboard-card"
-            style={{ borderTop: `4px solid ${card.color}` }}
-            onClick={() => navigate(card.path)}
-          >
-            <div className="icon">{card.icon}</div>
-            <h2>{card.title}</h2>
-            <p>{card.desc}</p>
-            <button style={{ background: card.color }}>Open</button>
+      {summary && (
+        <div className="grid" style={{ marginTop: 16 }}>
+          <div className="card">
+            <h3>Location</h3>
+            <p>
+              {summary.location.latitude}, {summary.location.longitude}
+            </p>
           </div>
-        ))}
-      </div>
-    </div>
+          <div className="card">
+            <h3>Temperature</h3>
+            <p>{summary.weather.temperature_celsius} C</p>
+          </div>
+          <div className="card">
+            <h3>Humidity</h3>
+            <p>{summary.weather.humidity}%</p>
+          </div>
+          <div className="card">
+            <h3>Rainfall Risk</h3>
+            <p>{summary.prediction.rainfall_risk}</p>
+          </div>
+        </div>
+      )}
+    </section>
   );
 };
 
-
 export default Dashboard;
- 
-

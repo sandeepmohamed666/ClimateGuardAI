@@ -1,18 +1,16 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./Sidebar.css";
 
 
 const Sidebar = () => {
   const menuItems = [
     { name: "Dashboard", path: "/" },
-    { name: "Climate Profile", path: "/profile" },
+    { name: "Climate Profiles", path: "/climate-profiles" },
     { name: "Rainfall Prediction", path: "/rainfall" },
     { name: "Heatwave Prediction", path: "/heatwave" },
     { name: "Anomaly Detection", path: "/anomaly" },
-    { name: "Climate Intelligence", path: "/intelligence" },
-    { name: "Model Explainability", path: "/explain" },
-    { name: "Settings", path: "/settings" },
+    { name: "Climate Risk Score", path: "/risk-score" },
+    { name: "Explainable AI", path: "/explainable-ai" },
   ];
 
 
