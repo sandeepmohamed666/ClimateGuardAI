@@ -15,8 +15,8 @@ datasets/engineered/
 # Processed data
 datasets/processed/
 
-# Model artifacts (optional)
-backend/ml/artifacts/*.pkl
+# # Model artifacts (optional)
+# backend/ml/artifacts/*.pkl
 
 # Logs
 *.log
