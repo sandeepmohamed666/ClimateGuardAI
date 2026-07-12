@@ -276,6 +276,8 @@ Production	      https://climate-guard-ai.vercel.app 	https://climateguardai-2-4
 
 
 
+YYYYY
+
 
 
 
@@ -317,4 +319,4 @@ air_quality_PM10
 visibility_km
 uv_index
 wind_kph
-cloud
+cloud      
