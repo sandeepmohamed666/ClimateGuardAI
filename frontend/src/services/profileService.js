@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../utils/constants";
 // services/profileService.js
 
 
@@ -5,9 +6,6 @@
  * Climate Guard AI - Climate Profile Service
  * Handles K-Means clustering based climate profile prediction
  */
-
-
-const API_URL = "http://localhost:5000"; // update in production
 
 
 /**
@@ -24,12 +22,18 @@ const API_URL = "http://localhost:5000"; // update in production
  */
 export const getClimateProfile = async (inputData) => {
   try {
-    const response = await fetch(`${API_URL}/predict/profile`, {
+    const response = await fetch(`${API_BASE_URL}/predict/profile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(inputData),
+      body: JSON.stringify({
+        temperature_celsius: inputData.temperature_celsius ?? inputData.temperature ?? 0,
+        humidity: inputData.humidity ?? 0,
+        precip_mm: inputData.precip_mm ?? inputData.rainfall ?? 0,
+        wind_kph: inputData.wind_kph ?? inputData.windSpeed ?? 0,
+        pressure_mb: inputData.pressure_mb ?? inputData.pressure ?? 1013,
+      }),
     });
 
 

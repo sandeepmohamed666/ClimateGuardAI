@@ -44,6 +44,16 @@ class WeatherAndPredictInput(LocationInput):
     mode: Literal["rainfall", "heatwave", "anomaly", "profile"] = "rainfall"
 
 
+class RiskScoreInput(BaseModel):
+    latitude: float | None = Field(default=None, ge=-90, le=90)
+    longitude: float | None = Field(default=None, ge=-180, le=180)
+    temperature_celsius: float | None = Field(default=None, ge=-50, le=60)
+    humidity: float | None = Field(default=None, ge=0, le=100)
+    precip_mm: float | None = Field(default=None, ge=0)
+    wind_kph: float | None = Field(default=None, ge=0)
+    pressure_mb: float | None = Field(default=None, ge=800, le=1200)
+
+
 def _rainfall_score(data: ClimateInput) -> float:
     score = (
         data.humidity * 0.55
@@ -86,6 +96,95 @@ def _profile_from_data(data: ClimateInput) -> str:
     return "Temperate"
 
 
+def _risk_level_from_score(score: float) -> str:
+    if score >= 75:
+        return "Extreme"
+    if score >= 55:
+        return "High"
+    if score >= 35:
+        return "Moderate"
+    return "Low"
+
+
+def _fallback_weather_from_location(latitude: float, longitude: float) -> dict:
+    lat_factor = abs(latitude) / 90.0
+    lon_factor = abs(longitude) / 180.0
+
+    temperature_celsius = round(30.0 - (lat_factor * 22.0) + (lon_factor * 2.5), 1)
+    humidity = round(45.0 + (lat_factor * 30.0) - (lon_factor * 8.0), 1)
+    precip_mm = round(max(0.0, 2.5 + lat_factor * 6.0 - lon_factor * 1.5), 1)
+    pressure_mb = round(1008.0 - (lat_factor * 8.0) + (lon_factor * 4.0), 1)
+    wind_kph = round(7.0 + (lat_factor * 6.0) + (lon_factor * 4.0), 1)
+
+    return {
+        "temperature_celsius": max(-20.0, min(45.0, temperature_celsius)),
+        "humidity": max(0.0, min(100.0, humidity)),
+        "precip_mm": max(0.0, precip_mm),
+        "pressure_mb": max(800.0, min(1200.0, pressure_mb)),
+        "wind_kph": max(0.0, wind_kph),
+        "observed_at": None,
+        "raw": {
+            "source": "synthetic-fallback",
+            "latitude": latitude,
+            "longitude": longitude,
+        },
+        "source": "synthetic-fallback",
+    }
+
+
+async def _climate_input_from_payload(payload: RiskScoreInput) -> tuple[ClimateInput, dict | None]:
+    if (
+        payload.temperature_celsius is not None
+        and payload.humidity is not None
+        and payload.precip_mm is not None
+        and payload.wind_kph is not None
+        and payload.pressure_mb is not None
+    ):
+        return (
+            ClimateInput(
+                temperature_celsius=payload.temperature_celsius,
+                humidity=payload.humidity,
+                precip_mm=payload.precip_mm,
+                wind_kph=payload.wind_kph,
+                pressure_mb=payload.pressure_mb,
+            ),
+            None,
+        )
+
+    if payload.latitude is not None and payload.longitude is not None:
+        weather = await _fetch_current_weather(payload.latitude, payload.longitude)
+        return (
+            ClimateInput(
+                temperature_celsius=weather["temperature_celsius"],
+                humidity=weather["humidity"],
+                precip_mm=weather["precip_mm"],
+                wind_kph=weather["wind_kph"],
+                pressure_mb=weather["pressure_mb"],
+            ),
+            weather,
+        )
+
+    default_weather = {
+        "temperature_celsius": 24.0,
+        "humidity": 55.0,
+        "precip_mm": 0.0,
+        "wind_kph": 8.0,
+        "pressure_mb": 1013.0,
+        "observed_at": None,
+        "raw": {},
+    }
+    return (
+        ClimateInput(
+            temperature_celsius=default_weather["temperature_celsius"],
+            humidity=default_weather["humidity"],
+            precip_mm=default_weather["precip_mm"],
+            wind_kph=default_weather["wind_kph"],
+            pressure_mb=default_weather["pressure_mb"],
+        ),
+        default_weather,
+    )
+
+
 async def _fetch_current_weather(latitude: float, longitude: float) -> dict:
     params = {
         "latitude": latitude,
@@ -105,12 +204,12 @@ async def _fetch_current_weather(latitude: float, longitude: float) -> dict:
             response = await client.get(OPEN_METEO_URL, params=params)
             response.raise_for_status()
             payload = response.json()
-    except httpx.HTTPError as exc:
-        raise HTTPException(status_code=502, detail=f"Open-Meteo request failed: {exc}") from exc
+    except httpx.HTTPError:
+        return _fallback_weather_from_location(latitude, longitude)
 
     current = payload.get("current") or {}
     if not current:
-        raise HTTPException(status_code=502, detail="Open-Meteo returned no current data")
+        return _fallback_weather_from_location(latitude, longitude)
 
     return {
         "temperature_celsius": float(current.get("temperature_2m", 0.0)),
@@ -120,6 +219,7 @@ async def _fetch_current_weather(latitude: float, longitude: float) -> dict:
         "wind_kph": float(current.get("wind_speed_10m", 0.0)),
         "observed_at": current.get("time"),
         "raw": current,
+        "source": "open-meteo",
     }
 
 
@@ -196,6 +296,11 @@ def predict_cluster(data: ClimateInput) -> dict:
     }
 
 
+@app.post("/predict/profile")
+def predict_profile(data: ClimateInput) -> dict:
+    return predict_cluster(data)
+
+
 @app.post("/predict/from-location")
 async def predict_from_location(payload: WeatherAndPredictInput) -> dict:
     weather = await _fetch_current_weather(payload.latitude, payload.longitude)
@@ -225,7 +330,82 @@ async def predict_from_location(payload: WeatherAndPredictInput) -> dict:
     }
 
 
+@app.post("/risk-score")
+async def risk_score(payload: RiskScoreInput) -> dict:
+    climate_input, weather = await _climate_input_from_payload(payload)
+
+    rainfall = _rainfall_score(climate_input)
+    heatwave = _heatwave_score(climate_input)
+    anomaly = _anomaly_score(climate_input)
+    score = round(rainfall * 0.35 + heatwave * 0.4 + anomaly * 0.25, 2)
+    level = _risk_level_from_score(score)
+
+    return {
+        "risk_score": score,
+        "level": level,
+        "components": {
+            "rainfall": round(rainfall, 2),
+            "heatwave": round(heatwave, 2),
+            "anomaly": round(anomaly, 2),
+        },
+        "location": None
+        if payload.latitude is None or payload.longitude is None
+        else {"latitude": payload.latitude, "longitude": payload.longitude},
+        "weather": weather,
+    }
+
+
+@app.post("/climate-intelligence")
+async def climate_intelligence(payload: RiskScoreInput) -> dict:
+    climate_input, weather = await _climate_input_from_payload(payload)
+    rainfall = _rainfall_score(climate_input)
+    heatwave = _heatwave_score(climate_input)
+    anomaly = _anomaly_score(climate_input)
+    score = round(rainfall * 0.35 + heatwave * 0.4 + anomaly * 0.25, 2)
+    level = _risk_level_from_score(score)
+
+    return {
+        "summary": (
+            f"Current conditions indicate {level.lower()} climate risk with a combined score of {score:.2f}."
+        ),
+        "riskLevel": level,
+        "stats": {
+            "normalPatterns": max(0, int(100 - score)),
+            "anomalies": int(round(anomaly)),
+            "highRiskEvents": int(round((rainfall + heatwave) / 2)),
+        },
+        "trends": [
+            {
+                "label": "Rainfall Pressure",
+                "value": "Elevated" if rainfall >= 40 else "Stable",
+                "impact": "High" if rainfall >= 70 else "Medium" if rainfall >= 40 else "Low",
+            },
+            {
+                "label": "Heat Stress",
+                "value": "Elevated" if heatwave >= 40 else "Stable",
+                "impact": "High" if heatwave >= 70 else "Medium" if heatwave >= 40 else "Low",
+            },
+            {
+                "label": "Anomaly Signal",
+                "value": "Elevated" if anomaly >= 55 else "Stable",
+                "impact": "High" if anomaly >= 70 else "Medium" if anomaly >= 55 else "Low",
+            },
+        ],
+        "alerts": [
+            "Monitor rapidly changing weather conditions.",
+            "Review rainfall and heatwave indicators for short-term risk.",
+            "Check anomaly signal if conditions continue to diverge.",
+        ],
+        "weather": weather,
+        "components": {
+            "rainfall": round(rainfall, 2),
+            "heatwave": round(heatwave, 2),
+            "anomaly": round(anomaly, 2),
+        },
+    }
+
+
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=5000, reload=True)
+    uvicorn.run("backend.main:app", host="0.0.0.0", port=5000, reload=True)

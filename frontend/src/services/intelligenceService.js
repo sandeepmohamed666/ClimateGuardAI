@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../utils/constants";
 // services/intelligenceService.js
 
 
@@ -7,16 +8,13 @@
  */
 
 
-const API_URL = "http://localhost:5000"; // update when backend is deployed
-
-
 /**
  * Fetch climate intelligence insights from backend
  * @param {Object} queryParams - optional filters (date range, region, etc.)
  */
 export const getClimateInsights = async (queryParams = {}) => {
   try {
-    const response = await fetch(`${API_URL}/climate-intelligence`, {
+    const response = await fetch(`${API_BASE_URL}/climate-intelligence`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -96,9 +94,15 @@ const mockInsights = () => {
 /**
  * Optional: Fetch only risk score (lightweight API)
  */
-export const getRiskScore = async () => {
+export const getRiskScore = async (payload = {}) => {
   try {
-    const response = await fetch(`${API_URL}/risk-score`);
+    const response = await fetch(`${API_BASE_URL}/risk-score`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
     if (!response.ok) throw new Error("Failed to fetch risk score");
 
 

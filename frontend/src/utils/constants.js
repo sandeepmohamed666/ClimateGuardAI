@@ -16,7 +16,7 @@ export const APP_VERSION = "1.0.0";
 // API Configuration
 // =========================
 export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_API_BASE_URL || "/api";
 
 
 // =========================
@@ -133,13 +133,3 @@ export const DASHBOARD_CARDS = [
 // =========================
 export const FOOTER_TEXT =
   "© 2026 Climate Guard AI. All Rights Reserved.";
-
-
-Suggested folder structure:
-src/
-├── constants/
-│   └── constants.js
-
-
-Then import it anywhere:
-import { APP_NAME, NAV_LINKS, COLORS } from "../constants/constants";  

@@ -1,4 +1,13 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+import { API_BASE_URL } from "../utils/constants";
+
+const API_URLS = Array.from(
+  new Set([
+    API_BASE_URL,
+    "/api",
+    "http://localhost:5000",
+    "http://127.0.0.1:5000",
+  ])
+).filter(Boolean);
 
 const readJson = async (response) => {
   const payload = await response.json().catch(() => ({}));
@@ -9,18 +18,33 @@ const readJson = async (response) => {
   return payload;
 };
 
+const buildUrl = (baseUrl, endpoint) => `${baseUrl.replace(/\/$/, "")}${endpoint}`;
+
+const requestWithFallback = async (method, endpoint, body) => {
+  let lastError = null;
+
+  for (const baseUrl of API_URLS) {
+    try {
+      const response = await fetch(buildUrl(baseUrl, endpoint), {
+        method,
+        headers: body ? { "Content-Type": "application/json" } : {},
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      return await readJson(response);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("Request failed");
+};
+
 const postRequest = async (endpoint, body) => {
-  const response = await fetch(`${API_URL}${endpoint}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  return readJson(response);
+  return requestWithFallback("POST", endpoint, body);
 };
 
 const getRequest = async (endpoint) => {
-  const response = await fetch(`${API_URL}${endpoint}`);
-  return readJson(response);
+  return requestWithFallback("GET", endpoint);
 };
 
 export const healthCheckAPI = () => getRequest("/health");

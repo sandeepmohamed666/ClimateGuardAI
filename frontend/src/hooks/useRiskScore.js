@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getRiskScore } from "../services/api"; // adjust if your path differs
+import { getRiskScore } from "../services/intelligenceService";
 
 
 const useRiskScore = () => {
@@ -19,7 +19,7 @@ const useRiskScore = () => {
       const response = await getRiskScore(inputData);
 
 
-      const score = response?.data?.risk_score;
+      const score = response?.risk_score ?? response?.data?.risk_score;
 
 
       setRiskScore(score);
